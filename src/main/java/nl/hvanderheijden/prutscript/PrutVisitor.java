@@ -7,6 +7,7 @@ import nl.hvanderheijden.prutscript.antlr4.PrutScriptBaseVisitor;
 import nl.hvanderheijden.prutscript.antlr4.PrutScriptParser;
 import nl.hvanderheijden.prutscript.nodes.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -29,6 +30,7 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
     @Override
     public T visitStringExpr(PrutScriptParser.StringExprContext ctx) {
         final PrutString str = new PrutString(ctx.getText());
+        System.out.println(ctx.getStart().getLine());
         return (T) str;
 
     }
@@ -42,7 +44,7 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
     @Override
     public T visitAssignExpr(PrutScriptParser.AssignExprContext ctx) {
         final Variable var = new Variable(
-                (Value) visit(ctx.expression()),
+                (PrutReference) visit(ctx.expression()),
                 ctx.identifier.getText());
         return (T) var;
     }
@@ -58,8 +60,8 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
         }
 
         final MathematicalExpr mathematicalExpr = new MathematicalExpr(
-                (Node)visit(ctx.expression(0)),
-                (Node)visit(ctx.expression(1)),
+                (PrutReference) visit(ctx.expression(0)),
+                (PrutReference) visit(ctx.expression(1)),
                 op
         );
         return (T) mathematicalExpr;
@@ -72,9 +74,9 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
 
     @Override
     public T visitMethodExpr(PrutScriptParser.MethodExprContext ctx) {
-        final List<Node> data = new Vector<Node>();
+        final List<PrutReference> data = new ArrayList<>();
         for(PrutScriptParser.ExpressionContext d : ctx.expression()){
-            data.add((Node)visit(d));
+            data.add((PrutReference) visit(d));
         }
 
         final MethodCall call = new MethodCall(ctx.identifier.getText(),data);
@@ -91,8 +93,8 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
         }
 
         final MathematicalExpr mathematicalExpr = new MathematicalExpr(
-                (Node)visit(ctx.expression(0)),
-                (Node)visit(ctx.expression(1)),
+                (PrutReference) visit(ctx.expression(0)),
+                (PrutReference) visit(ctx.expression(1)),
                 op
         );
         return (T) mathematicalExpr;
@@ -121,9 +123,9 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
             args.add(ctx.Identifier(i).getText());
         }
 
-        List<Node> data = new Vector<Node>();
+        List<PrutReference> data = new ArrayList<>();
         for(PrutScriptParser.ExpressionContext d : ctx.expression()){
-            data.add((Node)visit(d));
+            data.add((PrutReference) visit(d));
         }
         final Method method = new Method(ctx.identity.getText(), data, args);
         return (T) method;

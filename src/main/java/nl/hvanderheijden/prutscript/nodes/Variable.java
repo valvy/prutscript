@@ -2,18 +2,13 @@ package nl.hvanderheijden.prutscript.nodes;
 
 
 import nl.hvanderheijden.prutscript.ProgramFactory;
+import nl.hvanderheijden.prutscript.PrutContext;
 import nl.hvanderheijden.prutscript.exceptions.PrutException;
-import nl.hvanderheijden.prutscript.exceptions.ReferenceNotFoundException;
-import nl.hvanderheijden.prutscript.exceptions.UnableToLoadException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
-import java.util.List;
-import java.util.Stack;
-import java.util.Vector;
+public final class Variable extends PrutReference {
 
-public class Variable extends Value {
-
-    private final Value value;
+    private final PrutReference value;
 
     private final String name;
 
@@ -27,12 +22,12 @@ public class Variable extends Value {
     }
 
     public Variable(final String name,
-                    final Value value){
+                    final PrutReference value){
         this.value = value;
         this.name = name;
     }
 
-    public Variable(final Value value,
+    public Variable(final PrutReference value,
                     final String name){
         this.value = value;
         this.name = name;
@@ -43,27 +38,7 @@ public class Variable extends Value {
         return String.format("%s : %s", name, value);
     }
 
-    @Override
-    public Value varGetValue(final List<Variable> stack, final ProgramFactory.Program program) throws PrutException {
 
-        if(this.value == null){
-            for(Variable n : stack){
-                if(n.getName().equals(this.name)){
-                    //this.value = n.varGetValue(stack, program);
-                    return n.varGetValue(stack, program);
-                }
-            }
-
-            try {
-                return program.getVariable(this.getName());
-            }
-            catch(final PrutException ex){
-                System.out.println(stack);
-                throw ex;
-            }
-        }
-        return value.varGetValue(stack, program);
-    }
 
     @Override
     public void checkValidity(ProgramFactory.Program pr) throws PrutException {
@@ -81,13 +56,15 @@ public class Variable extends Value {
     }
 
     @Override
-    public String varGetName(final String alt) {
+    public String getName(String alt) {
         return this.name;
     }
 
-
     @Override
-    public String getType() {
-        return "Var";
+    public PrutReference getValue(PrutContext context) throws PrutException {
+        if(this.value == null){
+            return context.getVariable(name).getValue(context);//new Variable(this.name, context.getVariable(name).getValue(context));
+        }
+        return this.value.getValue(context);
     }
 }

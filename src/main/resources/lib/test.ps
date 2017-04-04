@@ -1,6 +1,6 @@
 #prut test script
 
-assert 1 1
+assert (1 + 1) (1 + 1)
 
 multiply l r {
     l * r
@@ -12,6 +12,9 @@ assert testMultiply 20
 
 testMultiplyThree = multiplyThree 3
 
+print (multiply 2 3)
+
+print testMultiplyThree
 assert testMultiplyThree 9
 
 TWO = 2

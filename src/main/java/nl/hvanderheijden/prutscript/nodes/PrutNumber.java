@@ -1,13 +1,16 @@
 package nl.hvanderheijden.prutscript.nodes;
 
 import nl.hvanderheijden.prutscript.ProgramFactory;
+import nl.hvanderheijden.prutscript.PrutContext;
 import nl.hvanderheijden.prutscript.exceptions.PrutException;
 
-import java.util.List;
-
-public class PrutNumber extends Value {
+public final class PrutNumber extends PrutReference {
 
     private final double value;
+
+    private PrutNumber(){
+        throw new UnsupportedOperationException();
+    }
 
     public PrutNumber(final double value){
         this.value = value;
@@ -30,13 +33,13 @@ public class PrutNumber extends Value {
     }
 
     @Override
-    public String getType() {
-        return "Integer";
+    public PrutReference getValue(PrutContext context) throws PrutException {
+        return this;
     }
 
     @Override
     public String toString(){
-        return String.format("Integer : %d", value);
+        return String.format("Prut Double : %f", value);
     }
 
     @Override
@@ -44,18 +47,6 @@ public class PrutNumber extends Value {
         return String.format("%f", value );
     }
 
-
-
-    @Override
-    public String varGetName(final String alt) {
-        return alt;
-    }
-
-
-    @Override
-    public Value varGetValue(final List<Variable> stack, final ProgramFactory.Program pr) {
-        return this;
-    }
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {

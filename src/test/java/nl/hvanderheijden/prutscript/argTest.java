@@ -2,10 +2,7 @@ package nl.hvanderheijden.prutscript;
 
 import nl.hvanderheijden.prutscript.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.exceptions.UnableToLoadException;
-import nl.hvanderheijden.prutscript.nodes.Method;
-import nl.hvanderheijden.prutscript.nodes.MethodCall;
-import nl.hvanderheijden.prutscript.nodes.Node;
-import nl.hvanderheijden.prutscript.nodes.PrutString;
+import nl.hvanderheijden.prutscript.nodes.*;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -27,7 +24,7 @@ public class argTest {
     @Test
     public void printTest() throws PrutException {
         ProgramFactory factory = new ProgramFactory();
-        List<Node> values = new Vector<Node>();
+        List<PrutReference> values = new Vector<PrutReference>();
         values.add(new PrutString("Heloworld"));
         factory.addToken(new MethodCall("print", values));
         factory.getProgram().execute();

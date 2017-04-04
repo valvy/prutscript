@@ -1,29 +1,32 @@
 package nl.hvanderheijden.prutscript.nodes;
 
 import nl.hvanderheijden.prutscript.ProgramFactory;
+import nl.hvanderheijden.prutscript.PrutContext;
 import nl.hvanderheijden.prutscript.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-public class MethodCall extends Value {
+public final class MethodCall extends PrutReference {
 
     private final String name;
 
-    private final List<Node> arguments;
+    private final List<PrutReference> arguments;
 
-    private List<Variable> tmpStack = null;
+    private PrutContext tmpContext;
 
+    private MethodCall(){
+        throw new UnsupportedOperationException();
+    }
 
-
-    public MethodCall(final String name, final List<Node> arguments){
+    public MethodCall(final String name, final List<PrutReference> arguments){
         this.name = name;
         this.arguments = arguments;
     }
 
-    public void preFillStack(final List<Variable> stack){
-        this.tmpStack = stack;
+    public void preFillContext(final PrutContext context){
+        this.tmpContext = context;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class MethodCall extends Value {
         return name;
     }
 
-    public List<Node> getArguments() {
+    public List<PrutReference> getArguments() {
         return arguments;
     }
 
@@ -44,28 +47,6 @@ public class MethodCall extends Value {
         return String.format("[Method] %s", name);
     }
 
-    @Override
-    public String varGetName(final String alt) {
-        return name;
-    }
-
-
-    @Override
-    public Value varGetValue(final List<Variable> stack, ProgramFactory.Program program) throws PrutException {
-        final List<Node> args = new Vector<>();
-        if(tmpStack == null) {
-            for (final Node v : arguments) {
-                args.add(v.varGetValue(stack, program));
-            }
-        }
-        else{
-            for (final Node v : tmpStack) {
-                args.add(v.varGetValue(stack, program));
-            }
-        }
-
-        return program.getMethod(this.name).executeMethod(program,args);
-    }
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
@@ -75,7 +56,28 @@ public class MethodCall extends Value {
     }
 
     @Override
-    public String getType() {
-        return "Method";
+    public String getName(String alt) {
+        return alt;
+    }
+
+    @Override
+    public PrutReference getValue(PrutContext context) throws PrutException {
+        final List<PrutReference> args = new ArrayList<>();
+        if(tmpContext == null) {
+            final PrutContext cont = new PrutContext(context);
+            for (final PrutReference v : arguments) {
+                args.add(v.getValue(cont).getValue(cont));
+            }
+            return context.getMethod(this.name).executeMethod(cont,args);
+        }
+        else{
+
+            final PrutContext cont = new PrutContext(tmpContext);
+            for (final PrutReference v : arguments) {
+                args.add(v.getValue(cont));
+            }
+            this.tmpContext = null;
+            return cont.getMethod(this.name).executeMethod(cont,args);
+        }
     }
 }

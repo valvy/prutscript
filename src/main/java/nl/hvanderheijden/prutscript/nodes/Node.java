@@ -10,10 +10,6 @@ public interface Node {
 
     String prutToString();
 
-    String varGetName(final String alt);
-
-    Value varGetValue(final List<Variable> stack, final ProgramFactory.Program pr) throws PrutException;
-
     void checkValidity(ProgramFactory.Program pr) throws PrutException;
 
 }

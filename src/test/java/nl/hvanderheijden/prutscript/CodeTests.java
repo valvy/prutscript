@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Vector;
 
 public class CodeTests {
-
+    /*
 
     @Test
     public void bigMethod() throws PrutException {
@@ -81,5 +81,5 @@ public class CodeTests {
         Loader loader = new Loader(is);
         loader.execute();
     }
-
+    */
 }

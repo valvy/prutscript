@@ -28,7 +28,9 @@ public final class Main {
         }catch(IOException ex){
             logger.error(ex);
         } catch (PrutException e) {
-            logger.error(e);
+            System.out.println(String.format("\u001B[31m %s \u001B[0m", e.getMessage())
+            );
+         //   logger.error(e);
         }
 
     }

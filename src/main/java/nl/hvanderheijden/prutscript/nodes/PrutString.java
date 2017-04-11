@@ -24,6 +24,12 @@ public final class PrutString extends PrutReference {
     }
 
     @Override
+    public String toString(){
+        return String.format("Prut String : %s", value);
+    }
+
+
+    @Override
     public PrutReference getValue(PrutContext context) throws PrutException {
         return this;
     }

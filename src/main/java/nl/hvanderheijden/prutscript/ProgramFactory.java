@@ -40,19 +40,19 @@ public class ProgramFactory {
         }
 
 
-        public Method getMethod(final String methodname) throws ReferenceNotFoundException {
+        public Method getMethod(final MethodCall methodCall) throws ReferenceNotFoundException {
             for(final Method method : methods){
-                if(methodname.equals(method.getName())){
+                if(methodCall.getName().equals(method.getName())){
                     return method;
                 }
             }
-            throw new ReferenceNotFoundException(1,String.format("Method: %s does not exist!", methodname));
+            throw new ReferenceNotFoundException(methodCall.getLineNr(),String.format("Method: %s does not exist!", methodCall.getName()));
         }
 
         public void execute() throws PrutException {
             this.addMethod(new Method(MAIN_METHOD, instructions, null,0));
             final PrutContext context = new PrutContext(this);
-            PrutReference res = getMethod(MAIN_METHOD).executeMethod(context, new ArrayList<PrutReference>());
+            PrutReference res = getMethod(new MethodCall(MAIN_METHOD,new ArrayList<PrutReference>(),0)).executeMethod(context, new ArrayList<PrutReference>());
             while(true){
 
                 if(res instanceof MethodCall){

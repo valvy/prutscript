@@ -44,11 +44,6 @@ public final class MethodCall extends PrutReference {
     }
 
     @Override
-    public int getLineNr() {
-        return 0;
-    }
-
-    @Override
     public String prutToString() {
         return String.format("[Method] %s", name);
     }
@@ -57,7 +52,7 @@ public final class MethodCall extends PrutReference {
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
         Assert.isUndefined(name == null);
-        pr.getMethod(this.name);
+        pr.getMethod(this);
 
     }
 
@@ -74,7 +69,7 @@ public final class MethodCall extends PrutReference {
             for (final PrutReference v : arguments) {
                 args.add(v.getValue(cont).getValue(cont));
             }
-            return context.getMethod(this.name).executeMethod(cont,args);
+            return context.getMethod(this).executeMethod(cont,args);
         }
         else{
 
@@ -83,7 +78,7 @@ public final class MethodCall extends PrutReference {
                 args.add(v.getValue(cont));
             }
             this.tmpContext = null;
-            return cont.getMethod(this.name).executeMethod(cont,args);
+            return cont.getMethod(this).executeMethod(cont,args);
         }
     }
 }

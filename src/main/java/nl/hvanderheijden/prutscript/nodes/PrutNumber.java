@@ -41,11 +41,6 @@ public final class PrutNumber extends PrutReference {
     }
 
     @Override
-    public int getLineNr() {
-        return 0;
-    }
-
-    @Override
     public String prutToString() {
         return String.format("%f", value );
     }

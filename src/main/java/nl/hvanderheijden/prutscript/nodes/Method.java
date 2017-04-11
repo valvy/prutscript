@@ -4,6 +4,7 @@ package nl.hvanderheijden.prutscript.nodes;
 import nl.hvanderheijden.prutscript.ProgramFactory;
 import nl.hvanderheijden.prutscript.PrutContext;
 import nl.hvanderheijden.prutscript.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.exceptions.PrutRedefinedException;
 import nl.hvanderheijden.prutscript.exceptions.ReferenceNotFoundException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
@@ -58,7 +59,7 @@ public class Method implements Node {
     }
 
 
-    protected void addVariable(final PrutContext context, final PrutReference node) {
+    protected void addVariable(final PrutContext context, final PrutReference node) throws PrutRedefinedException {
         if (node instanceof Variable) {
             context.addtoStack((Variable) node);
         }
@@ -112,7 +113,7 @@ public class Method implements Node {
             context.addtoStack(new Variable(
                     r,
                     this.arguments.get(i),
-                    r.getLineNr()
+                    this.getLineNr()
 
             ));
         }

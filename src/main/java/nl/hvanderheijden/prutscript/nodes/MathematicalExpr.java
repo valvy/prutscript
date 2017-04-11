@@ -35,8 +35,15 @@ public final class MathematicalExpr extends PrutReference {
 
     @Override
     public PrutReference getValue(PrutContext context) throws PrutException {
+
         final PrutReference lh = this.getValue(context,leftValue);
         final PrutReference rh = this.getValue(context,rightValue);
+
+        Assert.typeCheck(
+                lh.getClass() != rh.getClass(),
+                String.format("Can't operate on different types! (%s and %s)",lh.toString(), rh.toString()),
+                this.getLineNr()
+                );
         if(lh instanceof PrutNumber && rh instanceof PrutNumber){
             return MathOperations.executeMath((PrutNumber)lh, operation,(PrutNumber) rh).getValue(context);
         }
@@ -53,10 +60,6 @@ public final class MathematicalExpr extends PrutReference {
         return String.format("left: %s, right %s", leftValue.toString(), rightValue.toString());
     }
 
-    @Override
-    public int getLineNr() {
-        return 0;
-    }
 
     @Override
     public String prutToString() {

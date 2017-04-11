@@ -9,7 +9,6 @@ import java.util.List;
 
 public abstract class PrutException extends Exception {
 
-    //final List<Variable> stackTrace;
 
     private final String msg;
 
@@ -31,27 +30,13 @@ public abstract class PrutException extends Exception {
 
     @Override
     public String getMessage() {
-        return super.getMessage();
-    }
+        return String.format("Error on line : %d, %s ", lineNr,msg);
 
-    @Override
-    public String getLocalizedMessage() {
-        return super.getLocalizedMessage();
-    }
-
-    @Override
-    public synchronized Throwable getCause() {
-        return super.getCause();
-    }
-
-    @Override
-    public synchronized Throwable initCause(Throwable cause) {
-        return super.initCause(cause);
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return this.getMessage();
     }
 
     @Override

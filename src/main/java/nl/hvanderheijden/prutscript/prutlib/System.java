@@ -6,19 +6,23 @@ import nl.hvanderheijden.prutscript.exceptions.PrutAssertException;
 import nl.hvanderheijden.prutscript.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.nodes.*;
 import nl.hvanderheijden.prutscript.utils.Assert;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class System {
+public final class System {
 
-    private static final Logger logger = LogManager.getLogger(System.class.getName());
+    private System(){
+        throw new UnsupportedOperationException();
+    }
 
     public static class PrutAssert extends Method{
-        public PrutAssert() {
+        private PrutAssert() {
             super("assert", null, null, -1);
         }
 
@@ -47,7 +51,7 @@ public class System {
 
     public static class Print extends Method{
 
-        public Print() {
+        private Print() {
             super("print", null, null, -1);
         }
 
@@ -58,7 +62,7 @@ public class System {
             Assert.isUndefined(context == null,this.getLineNr());
             for(final Node node : arguments){
                 Assert.isUndefined(node == null,this.getLineNr());
-
+            //    logger.log(Level.INFO, node.prutToString());
                 java.lang.System.out.print(node.prutToString());
              //   logger.info(node.prutToString());
 
@@ -70,7 +74,7 @@ public class System {
     }
 
     public static class Input extends Method{
-        public Input() {
+        private Input() {
             super("input", null, null,-1);
         }
 
@@ -86,7 +90,7 @@ public class System {
     }
 
     public static List<Method> getIOMethods(){
-        final List<Method> ioMethods = new Vector<Method>();
+        final List<Method> ioMethods = new ArrayList<>();
         ioMethods.add(new Print());
         ioMethods.add(new Input());
         ioMethods.add(new PrutAssert());

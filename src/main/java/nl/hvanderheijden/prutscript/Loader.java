@@ -6,17 +6,18 @@ import nl.hvanderheijden.prutscript.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.exceptions.UnableToLoadException;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BufferedTokenStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Loader {
 
     private final ProgramFactory.Program program;
 
-    private static final Logger logger = LogManager.getLogger(Loader.class.getName());
+    private static final Logger logger = Logger.getLogger( Loader.class.getName() );
 
     public Loader(final InputStream data) throws UnableToLoadException {
         try {
@@ -27,7 +28,7 @@ public class Loader {
             program = (ProgramFactory.Program) visitor.visit(tree);
 
         } catch (final IOException e) {
-            logger.error(e);
+            logger.log(Level.SEVERE,e.getMessage(),e);
             throw new UnableToLoadException(null);
         }
     }

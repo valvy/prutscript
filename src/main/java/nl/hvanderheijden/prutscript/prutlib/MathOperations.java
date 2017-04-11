@@ -14,16 +14,16 @@ public final class MathOperations {
                                          final PrutNumber rh){
         switch(operation){
             case Addition:{
-                return new PrutNumber(lh.getValue() + rh.getValue());
+                return new PrutNumber(lh.getValue() + rh.getValue(),lh.getLineNr());
             }
             case Substraction: {
-                return new PrutNumber(lh.getValue() - rh.getValue());
+                return new PrutNumber(lh.getValue() - rh.getValue(), lh.getLineNr());
             }
             case Division:{
-                return new PrutNumber(lh.getValue() / rh.getValue());
+                return new PrutNumber(lh.getValue() / rh.getValue(),lh.getLineNr());
             }
             default:{
-                return new PrutNumber(lh.getValue() * rh.getValue());
+                return new PrutNumber(lh.getValue() * rh.getValue(),lh.getLineNr());
             }
         }
     }

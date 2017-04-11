@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface Node {
 
+    int getLineNr();
+
     String prutToString();
 
     void checkValidity(ProgramFactory.Program pr) throws PrutException;

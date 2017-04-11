@@ -7,16 +7,13 @@ import java.util.List;
 
 public class PrutTypeException extends PrutException{
 
-    private final String msg;
 
-    public PrutTypeException(final List<Variable> stackTrace, final String msg) {
-        super(stackTrace);
-        this.msg = msg;
+    public PrutTypeException(final int lineNr, final String msg) {
+        super(lineNr, msg);
     }
 
-    @Override
-    public String getMessage(){
-        return msg;
+    public PrutTypeException(final String msg, final int lineNr) {
+        super(lineNr, msg);
     }
 
 }

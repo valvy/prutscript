@@ -46,11 +46,11 @@ public class ProgramFactory {
                     return method;
                 }
             }
-            throw new ReferenceNotFoundException(null, String.format("Method: %s does not exist!", methodname));
+            throw new ReferenceNotFoundException(1,String.format("Method: %s does not exist!", methodname));
         }
 
         public void execute() throws PrutException {
-            this.addMethod(new Method(MAIN_METHOD, instructions, null));
+            this.addMethod(new Method(MAIN_METHOD, instructions, null,0));
             final PrutContext context = new PrutContext(this);
             PrutReference res = getMethod(MAIN_METHOD).executeMethod(context, new ArrayList<PrutReference>());
             while(true){

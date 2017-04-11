@@ -12,23 +12,24 @@ public final class Variable extends PrutReference {
 
     private final String name;
 
-    private Variable(){
-        throw new UnsupportedOperationException();
-    }
-
-    public Variable(final String name){
+    public Variable(final String name, final int lineNr){
+        super(lineNr);
         this.name = name;
         this.value = null;
     }
 
     public Variable(final String name,
-                    final PrutReference value){
+                    final PrutReference value,
+                    final int lineNr){
+        super(lineNr);
         this.value = value;
         this.name = name;
     }
 
     public Variable(final PrutReference value,
-                    final String name){
+                    final String name,
+                    final int lineNr){
+        super(lineNr);
         this.value = value;
         this.name = name;
     }

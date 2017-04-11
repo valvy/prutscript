@@ -16,18 +16,17 @@ public final class MathematicalExpr extends PrutReference {
         Substraction
     }
 
+
+   // private final int lineNr;
     private final PrutReference leftValue;
     private final PrutReference rightValue;
     private final Operation operation;
 
-    private MathematicalExpr(){
-        throw new UnsupportedOperationException();
-    }
-
     public MathematicalExpr(final PrutReference leftValue,
                             final PrutReference rightValue,
-                            final Operation operation) {
-
+                            final Operation operation,
+                            final int lineNr) {
+        super(lineNr);
         this.leftValue = leftValue;
         this.rightValue =  rightValue;
         this.operation = operation;
@@ -52,6 +51,11 @@ public final class MathematicalExpr extends PrutReference {
     @Override
     public String toString(){
         return String.format("left: %s, right %s", leftValue.toString(), rightValue.toString());
+    }
+
+    @Override
+    public int getLineNr() {
+        return 0;
     }
 
     @Override

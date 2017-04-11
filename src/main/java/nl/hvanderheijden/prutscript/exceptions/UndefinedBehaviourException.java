@@ -6,7 +6,7 @@ import nl.hvanderheijden.prutscript.nodes.Variable;
 import java.util.List;
 
 public class UndefinedBehaviourException extends PrutException{
-    public UndefinedBehaviourException(List<Variable> stackTrace) {
-        super(stackTrace);
+    public UndefinedBehaviourException(final int lineNr, final String msg) {
+        super(msg,lineNr);
     }
 }

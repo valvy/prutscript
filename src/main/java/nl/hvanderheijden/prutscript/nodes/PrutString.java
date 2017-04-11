@@ -10,16 +10,13 @@ public final class PrutString extends PrutReference {
 
     private final String value;
 
-    public PrutString(String value){
+    public PrutString(String value, final int lineNr){
+        super(lineNr);
      //   value = value.substring(0, value.length()-1);
        // value = value.substring(1);
         this.value = value;
         //this.value = value;
 
-    }
-
-    private PrutString(){
-        throw new UnsupportedOperationException();
     }
 
     public String getValue() {
@@ -30,6 +27,7 @@ public final class PrutString extends PrutReference {
     public PrutReference getValue(PrutContext context) throws PrutException {
         return this;
     }
+
 
     @Override
     public String prutToString() {

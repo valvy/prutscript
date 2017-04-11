@@ -16,11 +16,12 @@ public final class MethodCall extends PrutReference {
 
     private PrutContext tmpContext;
 
-    private MethodCall(){
-        throw new UnsupportedOperationException();
-    }
 
-    public MethodCall(final String name, final List<PrutReference> arguments){
+
+    public MethodCall(final String name,
+                      final List<PrutReference> arguments,
+                      final int lineNr){
+        super(lineNr);
         this.name = name;
         this.arguments = arguments;
     }
@@ -40,6 +41,11 @@ public final class MethodCall extends PrutReference {
 
     public List<PrutReference> getArguments() {
         return arguments;
+    }
+
+    @Override
+    public int getLineNr() {
+        return 0;
     }
 
     @Override

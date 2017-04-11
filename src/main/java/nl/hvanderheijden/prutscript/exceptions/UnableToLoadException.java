@@ -6,7 +6,7 @@ import nl.hvanderheijden.prutscript.nodes.Variable;
 import java.util.List;
 
 public class UnableToLoadException extends PrutException {
-    public UnableToLoadException(List<Variable> stackTrace) {
-        super(stackTrace);
+    public UnableToLoadException(final String msg) {
+        super(-1,msg);
     }
 }

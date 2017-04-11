@@ -18,14 +18,18 @@ public class Method implements Node {
 
     private final String name;
 
+    private final int lineNr;
+
     private Method(){
         throw new UnsupportedOperationException();
     }
 
     public Method(final String name,
                   final List<PrutReference> nodelist,
-                  final List<String> arguments){
+                  final List<String> arguments,
+                  final int lineNr){
 
+        this.lineNr = lineNr;
         if(arguments != null){
             this.arguments = arguments;
         }else{
@@ -50,7 +54,7 @@ public class Method implements Node {
                 }
             }
         }
-        throw new ReferenceNotFoundException(stack,String.format("Variable %s is not defined", name));
+        throw new ReferenceNotFoundException(1,String.format("Variable %s is not defined", name));
     }
 
 
@@ -66,7 +70,8 @@ public class Method implements Node {
         for(final PrutReference arg : call.getArguments()){
             i++;
             res.add(new Variable(arg.getName(Integer.toString(i)),
-                    arg.getValue(context)
+                    arg.getValue(context),
+                    arg.getLineNr()
             ));
 
         }
@@ -103,9 +108,12 @@ public class Method implements Node {
         for(int i = 0; i < arguments.size(); i++) {
 
             Assert.isUndefined(arguments.get(i) == null);
+            final PrutReference r = arguments.get(i).getValue(context);
             context.addtoStack(new Variable(
-                    arguments.get(i).getValue(context),
-                    this.arguments.get(i)
+                    r,
+                    this.arguments.get(i),
+                    r.getLineNr()
+
             ));
         }
 
@@ -130,6 +138,11 @@ public class Method implements Node {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public int getLineNr() {
+        return 0;
     }
 
     @Override

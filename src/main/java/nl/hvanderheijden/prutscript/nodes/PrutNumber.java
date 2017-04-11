@@ -8,11 +8,9 @@ public final class PrutNumber extends PrutReference {
 
     private final double value;
 
-    private PrutNumber(){
-        throw new UnsupportedOperationException();
-    }
 
-    public PrutNumber(final double value){
+    public PrutNumber(final double value, final int lineNr){
+        super(lineNr);
         this.value = value;
     }
 
@@ -40,6 +38,11 @@ public final class PrutNumber extends PrutReference {
     @Override
     public String toString(){
         return String.format("Prut Double : %f", value);
+    }
+
+    @Override
+    public int getLineNr() {
+        return 0;
     }
 
     @Override

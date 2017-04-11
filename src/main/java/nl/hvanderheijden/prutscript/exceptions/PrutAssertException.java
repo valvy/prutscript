@@ -7,15 +7,13 @@ import java.util.List;
 
 public class PrutAssertException extends PrutException{
 
-    private final String message;
-
-    public PrutAssertException(List<Variable> stackTrace, final String msg) {
-        super(stackTrace);
-        this.message = msg;
+    public PrutAssertException(final int lineNr, final String msg) {
+        super(lineNr,msg);
     }
 
-    @Override
-    public String getMessage(){
-        return message;
+    public PrutAssertException(final String msg, final int lineNr) {
+        super(lineNr,msg);
     }
+
+
 }

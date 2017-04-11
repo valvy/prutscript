@@ -29,15 +29,15 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
 
     @Override
     public T visitStringExpr(PrutScriptParser.StringExprContext ctx) {
-        final PrutString str = new PrutString(ctx.getText());
-        System.out.println(ctx.getStart().getLine());
+        final PrutString str = new PrutString(ctx.getText(), ctx.getStart().getLine());
+//      /  System.out.println(ctx.getStart().getLine());
         return (T) str;
 
     }
 
     @Override
     public T visitVariable(PrutScriptParser.VariableContext ctx) {
-        final Variable var = new Variable(ctx.getText());
+        final Variable var = new Variable(ctx.getText(), ctx.getStart().getLine());
         return (T) var;
     }
 
@@ -45,7 +45,10 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
     public T visitAssignExpr(PrutScriptParser.AssignExprContext ctx) {
         final Variable var = new Variable(
                 (PrutReference) visit(ctx.expression()),
-                ctx.identifier.getText());
+                ctx.identifier.getText(),
+                ctx.getStart().getLine()
+
+        );
         return (T) var;
     }
 
@@ -62,7 +65,8 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
         final MathematicalExpr mathematicalExpr = new MathematicalExpr(
                 (PrutReference) visit(ctx.expression(0)),
                 (PrutReference) visit(ctx.expression(1)),
-                op
+                op,
+                ctx.getStart().getLine()
         );
         return (T) mathematicalExpr;
     }
@@ -79,7 +83,11 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
             data.add((PrutReference) visit(d));
         }
 
-        final MethodCall call = new MethodCall(ctx.identifier.getText(),data);
+        final MethodCall call = new MethodCall(
+                ctx.identifier.getText(),
+                data,
+                ctx.getStart().getLine()
+        );
         return (T) call;
     }
 
@@ -95,7 +103,8 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
         final MathematicalExpr mathematicalExpr = new MathematicalExpr(
                 (PrutReference) visit(ctx.expression(0)),
                 (PrutReference) visit(ctx.expression(1)),
-                op
+                op,
+                ctx.getStart().getLine()
         );
         return (T) mathematicalExpr;
     }
@@ -103,7 +112,7 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
     @Override
     public T visitNumberExpr(PrutScriptParser.NumberExprContext ctx) {
 
-        final PrutNumber integer = new PrutNumber(Double.parseDouble(ctx.getText()));// new PrutNumber(Integer.getInteger(ctx.getText()));
+        final PrutNumber integer = new PrutNumber(Double.parseDouble(ctx.getText()), ctx.getStart().getLine());// new PrutNumber(Integer.getInteger(ctx.getText()));
         return (T) integer;
       //  return visitChildren(ctx);
     }
@@ -127,7 +136,7 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
         for(PrutScriptParser.ExpressionContext d : ctx.expression()){
             data.add((PrutReference) visit(d));
         }
-        final Method method = new Method(ctx.identity.getText(), data, args);
+        final Method method = new Method(ctx.identity.getText(), data, args, ctx.getStart().getLine());
         return (T) method;
     }
 }

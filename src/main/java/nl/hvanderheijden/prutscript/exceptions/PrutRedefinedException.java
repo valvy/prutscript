@@ -7,15 +7,9 @@ import java.util.List;
 
 public class PrutRedefinedException extends PrutException{
 
-    private final String message;
 
-    public PrutRedefinedException(List<Variable> stackTrace, final String message) {
-        super(stackTrace);
-        this.message = message;
+    public PrutRedefinedException(int lineNr, final String message) {
+        super(lineNr,message);
     }
 
-    @Override
-    public String getMessage(){
-        return this.message;
-    }
 }

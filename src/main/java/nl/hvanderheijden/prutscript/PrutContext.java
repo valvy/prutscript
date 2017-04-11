@@ -36,7 +36,7 @@ public class PrutContext {
             if(scope != null){
                 return scope.getVariable(name);
             }
-            throw new ReferenceNotFoundException(null,String.format("Could not find : %s", name));
+            throw new ReferenceNotFoundException(1,String.format("Could not find : %s", name));
         }
     }
 

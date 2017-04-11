@@ -101,14 +101,14 @@ public class Method implements Node {
     }
 
     public PrutReference executeMethod(final PrutContext context, final List<PrutReference> arguments) throws PrutException {
-        Assert.typeCheck(arguments.size() != this.arguments.size());
+        Assert.typeCheck(arguments.size() != this.arguments.size(),this.getLineNr());
 
         /**
          * Add the arguments to the stack
          */
         for(int i = 0; i < arguments.size(); i++) {
 
-            Assert.isUndefined(arguments.get(i) == null);
+            Assert.isUndefined(arguments.get(i) == null,this.getLineNr());
             final PrutReference r = arguments.get(i).getValue(context);
             context.addtoStack(new Variable(
                     r,
@@ -159,7 +159,7 @@ public class Method implements Node {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
-        Assert.isUndefined(name == null);
+        Assert.isUndefined(name == null,this.getLineNr());
 
         for(final Node n : this.instructions){
             n.checkValidity(pr);

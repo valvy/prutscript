@@ -26,7 +26,7 @@ public class System {
         public PrutReference executeMethod(final PrutContext context,
                                            final List<PrutReference> arguments) throws PrutException {
 
-            Assert.isUndefined(arguments.size() != 2);
+            Assert.isUndefined(arguments.size() != 2, this.getLineNr());
 
             if(!arguments.get(0).equals(arguments.get(1).getValue(context))){
              //   java.lang.System.out.print(arguments);
@@ -55,9 +55,9 @@ public class System {
         public PrutReference executeMethod(final PrutContext context,
                                            final List<PrutReference> arguments) throws PrutException {
 
-            Assert.isUndefined(context == null);
+            Assert.isUndefined(context == null,this.getLineNr());
             for(final Node node : arguments){
-                Assert.isUndefined(node == null);
+                Assert.isUndefined(node == null,this.getLineNr());
 
                 java.lang.System.out.print(node.prutToString());
              //   logger.info(node.prutToString());

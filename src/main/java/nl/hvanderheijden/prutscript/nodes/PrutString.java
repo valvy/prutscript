@@ -43,6 +43,6 @@ public final class PrutString extends PrutReference {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
-        Assert.isUndefined(value == null);
+        Assert.isUndefined(value == null, this.getLineNr());
     }
 }

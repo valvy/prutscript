@@ -11,22 +11,22 @@ public final class Assert {
         throw new UnsupportedOperationException();
     }
 
-    public static void isUndefined(final boolean ass) throws UndefinedBehaviourException {
+    public static void isUndefined(final boolean ass, final int lineNr) throws UndefinedBehaviourException {
         if(ass){
-            throw new UndefinedBehaviourException(1, "Undefined exeption");
+            throw new UndefinedBehaviourException(lineNr, "Undefined exeption");
         }
     }
 
-    public static void isUndefined(final boolean ass, final String msg) throws UndefinedBehaviourException {
+    public static void isUndefined(final boolean ass, final String msg, final int lineNr) throws UndefinedBehaviourException {
         if(ass){
-            throw new UndefinedBehaviourException(1,msg);
+            throw new UndefinedBehaviourException(lineNr,msg);
         }
     }
 
 
-    public static void typeCheck(final boolean ass) throws PrutTypeException {
+    public static void typeCheck(final boolean ass, final int lineNr) throws PrutTypeException {
         if(ass){
-            throw new PrutTypeException(1, "Type check failed!");
+            throw new PrutTypeException(lineNr, "Type check failed!");
         }
     }
 

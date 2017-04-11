@@ -51,7 +51,7 @@ public final class MethodCall extends PrutReference {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
-        Assert.isUndefined(name == null);
+        Assert.isUndefined(name == null,this.getLineNr());
         pr.getMethod(this);
 
     }

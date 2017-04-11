@@ -69,9 +69,9 @@ public final class MathematicalExpr extends PrutReference {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException{
-        Assert.typeCheck(!(leftValue instanceof PrutReference || leftValue instanceof Variable));
-        Assert.typeCheck(!(rightValue instanceof PrutReference || rightValue instanceof Variable));
-        Assert.isUndefined(leftValue == null || rightValue == null);
+        Assert.typeCheck(!(leftValue instanceof PrutReference || leftValue instanceof Variable),getLineNr());
+        Assert.typeCheck(!(rightValue instanceof PrutReference || rightValue instanceof Variable),getLineNr());
+        Assert.isUndefined(leftValue == null || rightValue == null, this.getLineNr());
 
     }
 

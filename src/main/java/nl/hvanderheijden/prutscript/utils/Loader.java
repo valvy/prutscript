@@ -15,24 +15,70 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BufferedTokenStream;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Loader {
 
-    private  ProgramFactory.Program program;
+    private ProgramFactory.Program program;
 
     private static final Logger logger = Logger.getLogger( Loader.class.getName() );
-
-    private final boolean couldLoad;
 
     private Loader(){
         throw new UnsupportedOperationException();
     }
 
+
+    public Loader(final String file) throws UnableToLoadException {
+        ProgramFactory.Program program = null;
+        try {
+            URL resource = Loader.class.getResource(file);
+            if (resource == null) {
+                resource = Paths.get(file).toUri().toURL();
+            }
+            try (final InputStream stream = resource.openStream()) {
+                program = loadProgram(stream);
+            } catch (IOException | PrutException e) {
+                logger.log(Level.SEVERE,e.getMessage(),e);
+            }
+        } catch (final MalformedURLException ex){
+            logger.log(Level.SEVERE,ex.getMessage(),ex);
+            throw new UnableToLoadException("Could not load program");
+        }
+
+        this.program = program;
+
+
+
+    }
+
+    private ProgramFactory.Program loadProgram(final InputStream data) throws PrutException {
+        PrutScriptLexer lexer = null;
+        try {
+            lexer = new PrutScriptLexer(new ANTLRInputStream(data));
+            PrutScriptParser parser = new PrutScriptParser(new BufferedTokenStream(lexer));
+            PrutScriptParser.PrutScriptContext tree = parser.prutScript();
+            PrutVisitor visitor = new PrutVisitor();
+            ProgramFactory.Program program = (ProgramFactory.Program) visitor.visit(tree);
+            program.linkProgram(PrutStd.getInstance().getStandardIO(),new MethodCall("@IO",new ArrayList<PrutReference>(),1));
+            program.checkValidity();
+            return program;
+        } catch (IOException e) {
+            logger.log(Level.SEVERE,e.getMessage(),e);
+            throw new UnableToLoadException("Could not load program");
+        }
+
+
+    }
+
+/*
     public Loader(final InputStream data){
         boolean loaded = true;
         try {
@@ -50,7 +96,7 @@ public class Loader {
         }
 
         this.couldLoad = loaded;
-    }
+    }*/
 
     public ProgramFactory.Program getProgram(final PrutContext context) throws PrutException {
         program.execute(context);
@@ -58,11 +104,11 @@ public class Loader {
     }
 
     public boolean isCouldLoad() {
-        return couldLoad;
+        return program != null;
     }
 
     public void execute() throws PrutException {
-        if(couldLoad) {
+        if(program != null) {
             program.execute();
         }
     }

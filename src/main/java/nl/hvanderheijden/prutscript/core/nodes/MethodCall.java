@@ -62,7 +62,7 @@ public final class MethodCall extends PrutReference {
     }
 
     @Override
-    public PrutReference getValue(PrutContext context) throws PrutException {
+    public PrutReference getValue(final PrutContext context) throws PrutException {
         final List<PrutReference> args = new ArrayList<>();
         if(tmpContext == null) {
             final PrutContext cont = new PrutContext(context);

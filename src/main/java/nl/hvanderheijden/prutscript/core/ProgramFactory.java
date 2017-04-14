@@ -85,7 +85,6 @@ public class ProgramFactory {
         }
 
         public void execute(PrutContext context) throws PrutException {
-
             if(!this.instructions.isEmpty()) {
                 final PrutContext ctx = new PrutContext(this);
                 this.addMethod(new Method(MAIN_METHOD + "1", instructions, new ArrayList<>(), 0));
@@ -98,8 +97,10 @@ public class ProgramFactory {
                     }
                 }
 
+
                 //merge contexts;
                 ctx.surrenderGlobalStack(context);
+
             }
         }
 

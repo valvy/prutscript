@@ -42,6 +42,7 @@ public final class PrutContext {
 
 
         private void addToGlobalStack(final Variable var) throws PrutRedefinedException {
+
             if(scope == null){
                 for(final Variable v : this.stack){
                     if(v.getName().equals(var.getName())){
@@ -120,8 +121,6 @@ public final class PrutContext {
         for(final Variable var : scope.stack){
             ctx.addToGlobalStack(var);
         }
-      //scope.stack.stream().forEach(ctx::addToGlobalStack);
-    //  scope.stack.stream().forEach();
     }
 
     @Override

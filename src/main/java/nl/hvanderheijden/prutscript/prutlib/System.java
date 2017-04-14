@@ -62,20 +62,10 @@ public final class System {
                                            final List<PrutReference> arguments) throws PrutException {
             Assert.typeCheck(arguments.size() != 1, "Import statement has only 1 argument", this.getLineNr());
             Assert.typeCheck(!(arguments.get(0) instanceof PrutString), "Import statement can contain only strings", this.getLineNr());
-           // Path currentRelativePath = Paths.get("");
             final String dat = ((PrutString)arguments.get(0)).getValue();
-            try(final InputStream str = new FileInputStream(dat)){
-                final Loader loader = new Loader(str);
+            final Loader loader = new Loader(dat);
+            context.linkProgramToContext(loader.getProgram(context),this);
 
-                context.linkProgramToContext(loader.getProgram(context),this);
-            } catch (final FileNotFoundException e) {
-                logger.log(Level.WARNING, String.format("Could not find %s", dat), e);
-            } catch (final IOException e) {
-                logger.log(Level.WARNING, String.format("Could not load %s", dat), e);
-            }
-
-
-//            final Loader
             return new PrutNumber(0,this.getLineNr());
         }
     }

@@ -1,9 +1,10 @@
 package nl.hvanderheijden.prutscript.utils;
 
 
-import nl.hvanderheijden.prutscript.exceptions.PrutTypeException;
-import nl.hvanderheijden.prutscript.exceptions.UndefinedBehaviourException;
-import nl.hvanderheijden.prutscript.nodes.Node;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutRedefinedException;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutTypeException;
+import nl.hvanderheijden.prutscript.core.exceptions.UndefinedBehaviourException;
+import nl.hvanderheijden.prutscript.core.nodes.Node;
 
 public final class Assert {
 
@@ -11,22 +12,27 @@ public final class Assert {
         throw new UnsupportedOperationException();
     }
 
-    public static void isUndefined(final boolean ass, final int lineNr) throws UndefinedBehaviourException {
+    public static void isUndefined(final boolean ass, final Node node) throws UndefinedBehaviourException {
         if(ass){
-            throw new UndefinedBehaviourException(lineNr, "Undefined exeption");
+            throw new UndefinedBehaviourException(node.getLineNr(), "Undefined exeption");
         }
     }
 
-    public static void isUndefined(final boolean ass, final String msg, final int lineNr) throws UndefinedBehaviourException {
+    public static void isUndefined(final boolean ass, final String msg, final Node node) throws UndefinedBehaviourException {
         if(ass){
-            throw new UndefinedBehaviourException(lineNr,msg);
+            throw new UndefinedBehaviourException(node.getLineNr(),msg);
         }
     }
 
+    public static void isAlreadydefined(final boolean ass, final String msg,final Node node) throws PrutRedefinedException {
+        if (ass) {
+            throw new PrutRedefinedException(node.getLineNr(), msg);
+        }
+    }
 
-    public static void typeCheck(final boolean ass, final int lineNr) throws PrutTypeException {
+    public static void typeCheck(final boolean ass, final Node node) throws PrutTypeException {
         if(ass){
-            throw new PrutTypeException(lineNr, "Type check failed!");
+            throw new PrutTypeException(node.getLineNr(), "Type check failed!");
         }
     }
 

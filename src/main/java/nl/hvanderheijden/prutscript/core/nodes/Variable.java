@@ -1,9 +1,10 @@
-package nl.hvanderheijden.prutscript.nodes;
+package nl.hvanderheijden.prutscript.core.nodes;
 
 
-import nl.hvanderheijden.prutscript.ProgramFactory;
-import nl.hvanderheijden.prutscript.PrutContext;
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.core.ProgramFactory;
+import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.core.exceptions.UndefinedBehaviourException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 public final class Variable extends PrutReference {
@@ -43,7 +44,7 @@ public final class Variable extends PrutReference {
 
     @Override
     public void checkValidity(ProgramFactory.Program pr) throws PrutException {
-        Assert.isUndefined(name == null, this.getLineNr());
+        Assert.isUndefined(name == null, this);
     }
 
     public String getName() {
@@ -52,7 +53,8 @@ public final class Variable extends PrutReference {
 
 
     @Override
-    public String prutToString() {
+    public String prutToString() throws UndefinedBehaviourException {
+        Assert.isUndefined(value == null, String.format("Could not asses %s since it is undefined.. ", name), this);
         return value.prutToString();
     }
 

@@ -1,8 +1,4 @@
-package nl.hvanderheijden.prutscript.exceptions;
-
-import nl.hvanderheijden.prutscript.nodes.Variable;
-
-import java.util.List;
+package nl.hvanderheijden.prutscript.core.exceptions;
 
 
 public class PrutTypeException extends PrutException{

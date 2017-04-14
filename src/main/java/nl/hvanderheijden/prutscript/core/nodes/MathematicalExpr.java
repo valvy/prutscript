@@ -1,10 +1,10 @@
-package nl.hvanderheijden.prutscript.nodes;
+package nl.hvanderheijden.prutscript.core.nodes;
 
 
-import nl.hvanderheijden.prutscript.ProgramFactory;
-import nl.hvanderheijden.prutscript.PrutContext;
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
-import nl.hvanderheijden.prutscript.prutlib.MathOperations;
+import nl.hvanderheijden.prutscript.core.ProgramFactory;
+import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.utils.MathOperations;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 public final class MathematicalExpr extends PrutReference {
@@ -69,9 +69,10 @@ public final class MathematicalExpr extends PrutReference {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException{
-        Assert.typeCheck(!(leftValue instanceof PrutReference || leftValue instanceof Variable),getLineNr());
-        Assert.typeCheck(!(rightValue instanceof PrutReference || rightValue instanceof Variable),getLineNr());
-        Assert.isUndefined(leftValue == null || rightValue == null, this.getLineNr());
+        Assert.isUndefined(leftValue == null || rightValue == null, this);
+        Assert.typeCheck(!(leftValue instanceof PrutReference || leftValue instanceof Variable),this);
+        Assert.typeCheck(!(rightValue instanceof PrutReference || rightValue instanceof Variable),this);
+
 
     }
 

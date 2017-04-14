@@ -1,11 +1,10 @@
-package nl.hvanderheijden.prutscript.nodes;
+package nl.hvanderheijden.prutscript.core.nodes;
 
 
-import nl.hvanderheijden.prutscript.ProgramFactory;
-import nl.hvanderheijden.prutscript.PrutContext;
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
-import nl.hvanderheijden.prutscript.exceptions.PrutRedefinedException;
-import nl.hvanderheijden.prutscript.exceptions.ReferenceNotFoundException;
+import nl.hvanderheijden.prutscript.core.ProgramFactory;
+import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutRedefinedException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 import java.util.ArrayList;
@@ -28,14 +27,10 @@ public class Method implements Node {
     public Method(final String name,
                   final List<PrutReference> nodelist,
                   final List<String> arguments,
-                  final int lineNr){
+                  final int lineNr) {
 
         this.lineNr = lineNr;
-        if(arguments != null){
-            this.arguments = arguments;
-        }else{
-            this.arguments = new ArrayList<>();
-        }
+        this.arguments = arguments;
 
         this.name = name;
         if(nodelist == null){
@@ -43,19 +38,6 @@ public class Method implements Node {
         } else{
             this.instructions = nodelist;
         }
-    }
-
-    public Variable getVariable(final String name,
-                                final List<Variable> stack) throws ReferenceNotFoundException {
-        for(final PrutReference v : stack){
-            if(v instanceof  Variable){
-                Variable var = (Variable) v;
-                if(var.getName().equals(name)){
-                    return var;
-                }
-            }
-        }
-        throw new ReferenceNotFoundException(1,String.format("Variable %s is not defined", name));
     }
 
 
@@ -86,7 +68,7 @@ public class Method implements Node {
         if(node instanceof MethodCall){
             final MethodCall method = (MethodCall)node;
 
-            final List<Variable> args = getArguments(context, method);//getArguments(stack,method,program);
+         //   final List<Variable> args = getArguments(context, method);//getArguments(stack,method,program);
             PrutReference res = method.getValue(context);
             while(true){
 
@@ -101,14 +83,15 @@ public class Method implements Node {
     }
 
     public PrutReference executeMethod(final PrutContext context, final List<PrutReference> arguments) throws PrutException {
-        Assert.typeCheck(arguments.size() != this.arguments.size(),this.getLineNr());
+
+        Assert.typeCheck(arguments.size() != this.arguments.size(),this);
 
         /**
          * Add the arguments to the stack
          */
         for(int i = 0; i < arguments.size(); i++) {
 
-            Assert.isUndefined(arguments.get(i) == null,this.getLineNr());
+            Assert.isUndefined(arguments.get(i) == null,this);
             final PrutReference r = arguments.get(i).getValue(context);
             context.addtoStack(new Variable(
                     r,
@@ -116,10 +99,11 @@ public class Method implements Node {
                     this.getLineNr()
 
             ));
+
         }
 
-
         for(int i = 0; i < instructions.size() - 1; i++){
+
             addVariable(context,instructions.get(i));
             callMethod(context, instructions.get(i));
         }
@@ -143,7 +127,7 @@ public class Method implements Node {
 
     @Override
     public int getLineNr() {
-        return 0;
+        return this.lineNr;
     }
 
     @Override
@@ -159,7 +143,7 @@ public class Method implements Node {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
-        Assert.isUndefined(name == null,this.getLineNr());
+        Assert.isUndefined(name == null,this);
 
         for(final Node n : this.instructions){
             n.checkValidity(pr);

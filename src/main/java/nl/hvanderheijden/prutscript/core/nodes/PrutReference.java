@@ -1,17 +1,17 @@
-package nl.hvanderheijden.prutscript.nodes;
+package nl.hvanderheijden.prutscript.core.nodes;
 
-import nl.hvanderheijden.prutscript.PrutContext;
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 
 public abstract class PrutReference implements Node {
 
-    private int lineNr;
+    private final int lineNr;
 
     private PrutReference(){
         throw new UnsupportedOperationException();
     }
 
-    public PrutReference(int lineNr){
+    public PrutReference(final int lineNr){
         this.lineNr = lineNr;
     }
 
@@ -23,7 +23,6 @@ public abstract class PrutReference implements Node {
     public int getLineNr() {
         return this.lineNr;
     }
-
 
     public abstract PrutReference getValue(final PrutContext context) throws PrutException;
 }

@@ -1,8 +1,8 @@
-package nl.hvanderheijden.prutscript.nodes;
+package nl.hvanderheijden.prutscript.core.nodes;
 
-import nl.hvanderheijden.prutscript.ProgramFactory;
-import nl.hvanderheijden.prutscript.PrutContext;
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.core.ProgramFactory;
+import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 
@@ -10,13 +10,9 @@ public final class PrutString extends PrutReference {
 
     private final String value;
 
-    public PrutString(String value, final int lineNr){
+    public PrutString(final String value, final int lineNr){
         super(lineNr);
-     //   value = value.substring(0, value.length()-1);
-       // value = value.substring(1);
         this.value = value;
-        //this.value = value;
-
     }
 
     public String getValue() {
@@ -43,6 +39,6 @@ public final class PrutString extends PrutReference {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
-        Assert.isUndefined(value == null, this.getLineNr());
+        Assert.isUndefined(value == null, this);
     }
 }

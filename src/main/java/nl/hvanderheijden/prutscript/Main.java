@@ -1,10 +1,10 @@
 package nl.hvanderheijden.prutscript;
 
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
-import nl.hvanderheijden.prutscript.exceptions.UnableToLoadException;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.utils.Loader;
 
 
-
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -18,9 +18,14 @@ public final class Main {
         throw new UnsupportedOperationException();
     }
 
-    public static void main(String[] arguments) throws UnableToLoadException {
+    public static void main(String[] arguments){
 
-        try(final InputStream is = Main.class.getResourceAsStream("/lib/test.ps")){
+        if(arguments.length == 0){
+            logger.log(Level.INFO, "Please define a source file..");
+            return;
+        }
+
+        try(final InputStream is = new FileInputStream(arguments[0])){
 
             Loader loader = new Loader(is);
             
@@ -28,9 +33,7 @@ public final class Main {
         }catch(final IOException ex){
             logger.log(Level.SEVERE, ex.getMessage(),ex);
         } catch (final PrutException e) {
-            System.out.println(String.format("\u001B[31m %s \u001B[0m", e.getMessage())
-            );
-         //   logger.error(e);
+            logger.log(Level.WARNING , String.format("\u001B[31m %s \u001B[0m", e.getMessage()),e);
         }
 
     }

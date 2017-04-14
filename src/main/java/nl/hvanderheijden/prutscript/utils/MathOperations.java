@@ -1,7 +1,7 @@
-package nl.hvanderheijden.prutscript.prutlib;
+package nl.hvanderheijden.prutscript.utils;
 
-import nl.hvanderheijden.prutscript.nodes.MathematicalExpr;
-import nl.hvanderheijden.prutscript.nodes.PrutNumber;
+import nl.hvanderheijden.prutscript.core.nodes.MathematicalExpr;
+import nl.hvanderheijden.prutscript.core.nodes.PrutNumber;
 
 public final class MathOperations {
 

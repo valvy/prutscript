@@ -1,8 +1,8 @@
-package nl.hvanderheijden.prutscript.nodes;
+package nl.hvanderheijden.prutscript.core.nodes;
 
-import nl.hvanderheijden.prutscript.ProgramFactory;
-import nl.hvanderheijden.prutscript.PrutContext;
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.core.ProgramFactory;
+import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public final class MethodCall extends PrutReference {
 
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
-        Assert.isUndefined(name == null,this.getLineNr());
+        Assert.isUndefined(name == null,this);
         pr.getMethod(this);
 
     }

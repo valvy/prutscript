@@ -1,9 +1,5 @@
-package nl.hvanderheijden.prutscript.exceptions;
+package nl.hvanderheijden.prutscript.core.exceptions;
 
-
-import nl.hvanderheijden.prutscript.nodes.Variable;
-
-import java.util.List;
 
 public class UnableToLoadException extends PrutException {
     public UnableToLoadException(final String msg) {

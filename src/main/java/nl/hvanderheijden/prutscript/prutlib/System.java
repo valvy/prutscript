@@ -1,39 +1,42 @@
 package nl.hvanderheijden.prutscript.prutlib;
 
-import nl.hvanderheijden.prutscript.Main;
-import nl.hvanderheijden.prutscript.PrutContext;
-import nl.hvanderheijden.prutscript.exceptions.PrutAssertException;
-import nl.hvanderheijden.prutscript.exceptions.PrutException;
-import nl.hvanderheijden.prutscript.nodes.*;
+import nl.hvanderheijden.prutscript.utils.Loader;
+import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutAssertException;
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
+import nl.hvanderheijden.prutscript.core.nodes.*;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class System {
 
+public final class System {
+    private static final Logger logger = Logger.getLogger( System.class.getName() );
     private System(){
         throw new UnsupportedOperationException();
     }
 
     public static class PrutAssert extends Method{
         private PrutAssert() {
-            super("assert", null, null, -1);
+            super("assert", new ArrayList<PrutReference>(), new ArrayList<String>(), -1);
         }
 
         @Override
         public PrutReference executeMethod(final PrutContext context,
                                            final List<PrutReference> arguments) throws PrutException {
 
-            Assert.isUndefined(arguments.size() != 2, this.getLineNr());
+            Assert.isUndefined(arguments.size() != 2, this);
 
             if(!arguments.get(0).equals(arguments.get(1).getValue(context))){
-             //   java.lang.System.out.print(arguments);
                 throw new PrutAssertException(1,String.format(
                         "Assertion failure, argument %s is not equal to %s",
                         arguments.get(0).prutToString(),
@@ -44,24 +47,52 @@ public final class System {
 
 
 
-            return new PrutNumber(0,1);
+            return new PrutNumber(0,this.getLineNr());
         }
 
+    }
+
+    public static class Import extends Method {
+        private Import() {
+            super("import", new ArrayList<PrutReference>(), new ArrayList<String>(), -1);
+        }
+
+        @Override
+        public PrutReference executeMethod(final PrutContext context,
+                                           final List<PrutReference> arguments) throws PrutException {
+            Assert.typeCheck(arguments.size() != 1, "Import statement has only 1 argument", this.getLineNr());
+            Assert.typeCheck(!(arguments.get(0) instanceof PrutString), "Import statement can contain only strings", this.getLineNr());
+           // Path currentRelativePath = Paths.get("");
+            final String dat = ((PrutString)arguments.get(0)).getValue();
+            try(final InputStream str = new FileInputStream(dat)){
+                final Loader loader = new Loader(str);
+
+                context.linkProgramToContext(loader.getProgram(context),this);
+            } catch (final FileNotFoundException e) {
+                logger.log(Level.WARNING, String.format("Could not find %s", dat), e);
+            } catch (final IOException e) {
+                logger.log(Level.WARNING, String.format("Could not load %s", dat), e);
+            }
+
+
+//            final Loader
+            return new PrutNumber(0,this.getLineNr());
+        }
     }
 
     public static class Print extends Method{
 
         private Print() {
-            super("print", null, null, -1);
+            super("print", new ArrayList<PrutReference>(), new ArrayList<String>(), -1);
         }
 
         @Override
         public PrutReference executeMethod(final PrutContext context,
                                            final List<PrutReference> arguments) throws PrutException {
 
-            Assert.isUndefined(context == null,this.getLineNr());
+            Assert.isUndefined(context == null,this);
             for(final Node node : arguments){
-                Assert.isUndefined(node == null,this.getLineNr());
+                Assert.isUndefined(node == null,this);
             //    logger.log(Level.INFO, node.prutToString());
                 java.lang.System.out.print(node.prutToString());
              //   logger.info(node.prutToString());
@@ -69,13 +100,13 @@ public final class System {
             }
             java.lang.System.out.println();
 
-            return new PrutNumber(0,-1);
+            return new PrutNumber(0,this.getLineNr());
         }
     }
 
     public static class Input extends Method{
         private Input() {
-            super("input", null, null,-1);
+            super("input", new ArrayList<PrutReference>(), new ArrayList<String>(),-1);
         }
 
         @Override
@@ -85,14 +116,15 @@ public final class System {
             Scanner reader = new Scanner(java.lang.System.in);
             new Print().executeMethod(context, arguments);
             reader.nextLine();
-            return new PrutString("a", 0);
+            return new PrutString("a", this.getLineNr());
         }
     }
 
-    public static List<Method> getIOMethods(){
+    public static List<Method> getIOMethods() {
         final List<Method> ioMethods = new ArrayList<>();
         ioMethods.add(new Print());
         ioMethods.add(new Input());
+        ioMethods.add(new Import());
         ioMethods.add(new PrutAssert());
         return ioMethods;
     }

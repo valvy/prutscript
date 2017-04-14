@@ -1,11 +1,8 @@
-package nl.hvanderheijden.prutscript;
-
-
-
+package nl.hvanderheijden.prutscript.core;
 
 import nl.hvanderheijden.prutscript.antlr4.PrutScriptBaseVisitor;
 import nl.hvanderheijden.prutscript.antlr4.PrutScriptParser;
-import nl.hvanderheijden.prutscript.nodes.*;
+import nl.hvanderheijden.prutscript.core.nodes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +26,10 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
 
     @Override
     public T visitStringExpr(PrutScriptParser.StringExprContext ctx) {
-        final PrutString str = new PrutString(ctx.getText(), ctx.getStart().getLine());
+        final PrutString str = new PrutString(
+                ctx.getText().substring(1, ctx.getText().length() - 1),
+                ctx.getStart().getLine()
+        );
 //      /  System.out.println(ctx.getStart().getLine());
         return (T) str;
 

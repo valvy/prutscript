@@ -69,6 +69,7 @@ public class Loader extends PrutOutput{
             PrutVisitor visitor = new PrutVisitor();
             ProgramFactory.Program program = (ProgramFactory.Program) visitor.visit(tree);
             program.linkProgram(PrutStd.getInstance().getStandardIO(),new MethodCall("@IO",new ArrayList<PrutReference>(),1));
+           // program.linkLibrary(program, new PrutContext(program), new MethodCall("@IO", new ArrayList<>(),1));
             program.checkValidity();
             return program;
         } catch (IOException e) {

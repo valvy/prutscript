@@ -1,0 +1,18 @@
+
+print "Welcome by prutscript"
+
+
+"
+setCommand 'help' {
+    print 'for help do ..'
+}
+
+"
+
+Repl.Main.loop x {
+
+    input x
+    Repl.Main.loop x
+}
+
+Repl.Main.loop "test"

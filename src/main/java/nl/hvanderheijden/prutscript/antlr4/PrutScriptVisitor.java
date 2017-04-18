@@ -1,4 +1,4 @@
-package nl.hvanderheijden.prutscript.antlr4;// Generated from /Users/heikovanderheijden/Desktop/HeikoScript/src/main/antlr4/PrutScript.g4 by ANTLR 4.6
+package nl.hvanderheijden.prutscript.antlr4;// Generated from /Users/heikovanderheijden/Desktop/prutscript/src/main/antlr4/PrutScript.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

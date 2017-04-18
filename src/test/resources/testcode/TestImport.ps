@@ -1,13 +1,13 @@
 #!/usr/bin/env prutscript
-isLoaded = import "/testcode/someMethods.ps"
-
-execute isLoaded
+import "/testcode/someMethods.ps"
+import "/testcode/assign.ps"
 
 execute loaded {
     "
         test
         afadfadf
     "
+    print Assign.getGlobals
     result = (test 3)
     result2 = (test 4)
     print result
@@ -15,3 +15,4 @@ execute loaded {
 }
 
 
+execute 1

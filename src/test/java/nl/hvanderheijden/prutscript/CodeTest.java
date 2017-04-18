@@ -15,7 +15,7 @@ public class CodeTest {
     @Test
     public void testAssign() throws PrutException {
 
-        Loader loader = new Loader("/testcode/assign.ps");
+        Loader loader = new Loader("/testcode/Assign.ps");
 
         loader.execute();
 
@@ -23,7 +23,7 @@ public class CodeTest {
 
     @Test
     public void testImport() throws PrutException {
-        Loader loader = new Loader("/testcode/testImport.ps");
+        Loader loader = new Loader("/testcode/TestImport.ps");
         loader.execute();
 
     }

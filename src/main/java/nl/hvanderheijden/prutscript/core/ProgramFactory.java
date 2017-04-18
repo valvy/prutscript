@@ -8,8 +8,7 @@ import nl.hvanderheijden.prutscript.core.exceptions.ReferenceNotFoundException;
 import nl.hvanderheijden.prutscript.core.nodes.*;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ProgramFactory {
 
@@ -26,21 +25,27 @@ public class ProgramFactory {
             }
         }
 
+        public List<Program> getLinkedPrograms(){
+            return this.linked;
+        }
+
         @Override
         public String toString(){
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             for(final Method method : methods){
-               result += method.toString() + "\n";
+               result.append(method.toString()).append("\n");
             }
-            return result;
+            return result.toString();
         }
 
         private Program(){
+
             instructions = new ArrayList<>();
             methods = new ArrayList<>();
             this.linked = new ArrayList<>();
         }
+
 
         public void linkProgram(final Program pr, final Node node) throws PrutRedefinedException {
             /**
@@ -48,6 +53,9 @@ public class ProgramFactory {
              */
             for(final Method my : this.methods){
                 for(final Method other : pr.methods){
+                    if(other.getName().startsWith(MAIN_METHOD)){
+                        continue;
+                    }
                     Assert.isAlreadydefined(
                             other.getName().equals(my.getName()),
                             String.format(" %s is in import statement already defined", other.getName()),
@@ -60,12 +68,15 @@ public class ProgramFactory {
             this.linked.add(pr);
         }
 
+
         private boolean methodExist(final MethodCall call){
             for(final Method method : methods){
                 if(method.getName().equals(call.getName())){
                     return true;
                 }
             }
+
+
             return false;
         }
 
@@ -75,6 +86,7 @@ public class ProgramFactory {
                     return method;
                 }
             }
+
             for(final Program pr : linked){
                 if(pr.methodExist(methodCall)){
                     return pr.getMethod(methodCall);
@@ -84,11 +96,15 @@ public class ProgramFactory {
             throw new ReferenceNotFoundException(methodCall.getLineNr(),String.format("Method: %s does not exist!", methodCall.getName()));
         }
 
-        public void execute(PrutContext context) throws PrutException {
+        public int getAmountOfLinkedPrograms(){
+            return this.linked.size();
+        }
+
+        public void execute(final PrutContext context) throws PrutException {
             if(!this.instructions.isEmpty()) {
                 final PrutContext ctx = new PrutContext(this);
-                this.addMethod(new Method(MAIN_METHOD + "1", instructions, new ArrayList<>(), 0));
-                PrutReference res = getMethod(new MethodCall(MAIN_METHOD +"1", new ArrayList<>(), 0)).executeMethod(ctx, new ArrayList<>());
+                this.addMethod(new Method(MAIN_METHOD, instructions, new ArrayList<>(), 0));
+                PrutReference res = getMethod(new MethodCall(MAIN_METHOD, new ArrayList<>(), 0)).executeMethod(ctx, new ArrayList<>());
                 while (true) {
                     if (res instanceof MethodCall) {
                         res = res.getValue(ctx);

@@ -1,5 +1,6 @@
 package nl.hvanderheijden.prutscript.prutlib;
 
+import nl.hvanderheijden.prutscript.core.ProgramFactory;
 import nl.hvanderheijden.prutscript.core.exceptions.UnableToLoadException;
 import nl.hvanderheijden.prutscript.utils.Loader;
 import nl.hvanderheijden.prutscript.core.PrutContext;
@@ -62,7 +63,8 @@ public final class System {
             try {
                 final String dat = ((PrutString) arguments.get(0)).getValue();
                 final Loader loader = new Loader(dat);
-                context.linkProgramToContext(loader.getProgram(context), this);
+                final ProgramFactory.Program pr = loader.getProgram(context);
+                context.linkProgramToContext(pr, this);
                 return new PrutNumber(0, this.getLineNr());
             } catch (final UnableToLoadException ex){
                 logger.log(Level.WARNING, ex.getMessage(), ex);

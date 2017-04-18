@@ -1,5 +1,6 @@
 package nl.hvanderheijden.prutscript.core;
 
+import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutRedefinedException;
 import nl.hvanderheijden.prutscript.core.exceptions.ReferenceNotFoundException;
 import nl.hvanderheijden.prutscript.core.nodes.Method;
@@ -40,6 +41,16 @@ public final class PrutContext extends PrutOutput{
             }
         }
 
+        public boolean variableExists(final String name){
+            final Optional<Variable> res = stack.stream().filter(var ->  var.getName().equals(name)).findFirst();
+            if(res.isPresent()){
+                return true;
+            } else if(scope != null) {
+                return scope.variableExists(name);
+            } else{
+                return false;
+            }
+        }
 
         private void addToGlobalStack(final Variable var) throws PrutRedefinedException {
 
@@ -93,6 +104,10 @@ public final class PrutContext extends PrutOutput{
         this.program.linkProgram(program,node);
     }
 
+    public int getAmountOfPrograms(){
+        return this.program.getAmountOfLinkedPrograms();
+    }
+
     public ProgramFactory.Program getProgram() {
         return program;
     }
@@ -127,8 +142,13 @@ public final class PrutContext extends PrutOutput{
     }
 
 
-    public Variable getVariable(final String name) throws ReferenceNotFoundException {
-        return this.scope.getVariable(name);
+    public Variable getVariable(final String name) throws PrutException {
+        if(scope.variableExists(name)) {
+            return this.scope.getVariable(name);
+        } else {
+            final Method m = program.getMethod(new MethodCall(name, new ArrayList<>(), 0));
+            return new Variable(name, m.executeMethod(this,new ArrayList<>()), m.getLineNr());
+        }
     }
 
     public Method getMethod(final MethodCall call) throws ReferenceNotFoundException {

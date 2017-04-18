@@ -1,4 +1,4 @@
-package nl.hvanderheijden.prutscript.antlr4;// Generated from /Users/heikovanderheijden/Desktop/HeikoScript/src/main/antlr4/PrutScript.g4 by ANTLR 4.6
+package nl.hvanderheijden.prutscript.antlr4;// Generated from /Users/heikovanderheijden/Desktop/prutscript/src/main/antlr4/PrutScript.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class PrutScriptParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.6", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -104,6 +104,14 @@ public class PrutScriptParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prutScript; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterPrutScript(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitPrutScript(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitPrutScript(this);
@@ -239,6 +247,14 @@ public class PrutScriptParser extends Parser {
 		public TerminalNode String() { return getToken(PrutScriptParser.String, 0); }
 		public StringExprContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterStringExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitStringExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitStringExpr(this);
 			else return visitor.visitChildren(this);
@@ -256,6 +272,14 @@ public class PrutScriptParser extends Parser {
 		public TerminalNode DIVIDE() { return getToken(PrutScriptParser.DIVIDE, 0); }
 		public MultiplicativeExprContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterMultiplicativeExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitMultiplicativeExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitMultiplicativeExpr(this);
 			else return visitor.visitChildren(this);
@@ -270,6 +294,14 @@ public class PrutScriptParser extends Parser {
 		}
 		public TerminalNode EXPONENT() { return getToken(PrutScriptParser.EXPONENT, 0); }
 		public ExponentialExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterExponentialExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitExponentialExpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitExponentialExpr(this);
@@ -288,6 +320,14 @@ public class PrutScriptParser extends Parser {
 		public TerminalNode SUBTRACT() { return getToken(PrutScriptParser.SUBTRACT, 0); }
 		public AdditiveExprContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterAdditiveExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitAdditiveExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitAdditiveExpr(this);
 			else return visitor.visitChildren(this);
@@ -296,6 +336,14 @@ public class PrutScriptParser extends Parser {
 	public static class NumberExprContext extends ExpressionContext {
 		public TerminalNode NUMBER() { return getToken(PrutScriptParser.NUMBER, 0); }
 		public NumberExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterNumberExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitNumberExpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitNumberExpr(this);
@@ -313,6 +361,14 @@ public class PrutScriptParser extends Parser {
 		}
 		public MethodExprContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterMethodExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitMethodExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitMethodExpr(this);
 			else return visitor.visitChildren(this);
@@ -322,6 +378,14 @@ public class PrutScriptParser extends Parser {
 		public Token identifier;
 		public TerminalNode Identifier() { return getToken(PrutScriptParser.Identifier, 0); }
 		public VariableContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitVariable(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitVariable(this);
@@ -335,6 +399,14 @@ public class PrutScriptParser extends Parser {
 		}
 		public TerminalNode RPAREN() { return getToken(PrutScriptParser.RPAREN, 0); }
 		public ParenthesizedExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterParenthesizedExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitParenthesizedExpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitParenthesizedExpr(this);
@@ -351,6 +423,14 @@ public class PrutScriptParser extends Parser {
 			return getRuleContext(BlockContext.class,0);
 		}
 		public AssignExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterAssignExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitAssignExpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitAssignExpr(this);
@@ -567,6 +647,14 @@ public class PrutScriptParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_endExpr; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterEndExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitEndExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitEndExpr(this);
 			else return visitor.visitChildren(this);
@@ -644,6 +732,14 @@ public class PrutScriptParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).enterBlock(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PrutScriptListener ) ((PrutScriptListener)listener).exitBlock(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PrutScriptVisitor ) return ((PrutScriptVisitor<? extends T>)visitor).visitBlock(this);
@@ -767,7 +863,7 @@ public class PrutScriptParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\27n\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27n\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\6\2\r\n\2\r\2\16\2\16\3\2\3\2\6\2\23\n\2\r"+
 		"\2\16\2\24\3\2\6\2\30\n\2\r\2\16\2\31\6\2\34\n\2\r\2\16\2\35\3\2\3\2\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\6\3,\n\3\r\3\16\3-\3\3\3\3\3\3"+
@@ -775,14 +871,14 @@ public class PrutScriptParser extends Parser {
 		"\3\f\3\16\3D\13\3\3\4\3\4\5\4H\n\4\3\4\5\4K\n\4\3\5\3\5\7\5O\n\5\f\5\16"+
 		"\5R\13\5\3\5\7\5U\n\5\f\5\16\5X\13\5\3\5\3\5\7\5\\\n\5\f\5\16\5_\13\5"+
 		"\3\5\3\5\6\5c\n\5\r\5\16\5d\7\5g\n\5\f\5\16\5j\13\5\3\5\3\5\3\5\2\3\4"+
-		"\6\2\4\6\b\2\4\3\2\16\17\3\2\20\21\u0080\2\33\3\2\2\2\4\65\3\2\2\2\6J"+
-		"\3\2\2\2\bL\3\2\2\2\n\f\5\b\5\2\13\r\5\6\4\2\f\13\3\2\2\2\r\16\3\2\2\2"+
-		"\16\f\3\2\2\2\16\17\3\2\2\2\17\34\3\2\2\2\20\22\5\4\3\2\21\23\5\6\4\2"+
-		"\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\34\3\2\2\2"+
-		"\26\30\5\6\4\2\27\26\3\2\2\2\30\31\3\2\2\2\31\27\3\2\2\2\31\32\3\2\2\2"+
-		"\32\34\3\2\2\2\33\n\3\2\2\2\33\20\3\2\2\2\33\27\3\2\2\2\34\35\3\2\2\2"+
-		"\35\33\3\2\2\2\35\36\3\2\2\2\36\37\3\2\2\2\37 \7\2\2\3 \3\3\2\2\2!\"\b"+
-		"\3\1\2\"#\7\22\2\2#$\5\4\3\2$%\7\23\2\2%\66\3\2\2\2&\66\7\13\2\2\'\66"+
+		"\6\2\4\6\b\2\4\3\2\16\17\3\2\20\21\2\u0080\2\33\3\2\2\2\4\65\3\2\2\2\6"+
+		"J\3\2\2\2\bL\3\2\2\2\n\f\5\b\5\2\13\r\5\6\4\2\f\13\3\2\2\2\r\16\3\2\2"+
+		"\2\16\f\3\2\2\2\16\17\3\2\2\2\17\34\3\2\2\2\20\22\5\4\3\2\21\23\5\6\4"+
+		"\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\34\3\2\2"+
+		"\2\26\30\5\6\4\2\27\26\3\2\2\2\30\31\3\2\2\2\31\27\3\2\2\2\31\32\3\2\2"+
+		"\2\32\34\3\2\2\2\33\n\3\2\2\2\33\20\3\2\2\2\33\27\3\2\2\2\34\35\3\2\2"+
+		"\2\35\33\3\2\2\2\35\36\3\2\2\2\36\37\3\2\2\2\37 \7\2\2\3 \3\3\2\2\2!\""+
+		"\b\3\1\2\"#\7\22\2\2#$\5\4\3\2$%\7\23\2\2%\66\3\2\2\2&\66\7\13\2\2\'\66"+
 		"\7\24\2\2(\66\7\n\2\2)+\7\n\2\2*,\5\4\3\2+*\3\2\2\2,-\3\2\2\2-+\3\2\2"+
 		"\2-.\3\2\2\2.\66\3\2\2\2/\60\7\n\2\2\60\63\7\3\2\2\61\64\5\4\3\2\62\64"+
 		"\5\b\5\2\63\61\3\2\2\2\63\62\3\2\2\2\64\66\3\2\2\2\65!\3\2\2\2\65&\3\2"+

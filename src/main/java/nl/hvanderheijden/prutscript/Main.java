@@ -1,17 +1,9 @@
 package nl.hvanderheijden.prutscript;
 
-import nl.hvanderheijden.prutscript.config.PrutRuntimeConfig;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.utils.Loader;
 
-
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
 public final class Main {
-
-    private static final Logger logger = Logger.getLogger( Main.class.getName() );
 
     private Main(){
         throw new UnsupportedOperationException();
@@ -20,11 +12,11 @@ public final class Main {
     public static void main(String[] arguments){
 
         if(arguments.length == 0){
-            //System.out.println("Please define a source file..");
-            logger.log(Level.CONFIG, "Please define a source file..");
+            System.out.println("Please define a source file..");
             return;
         }
 
+        SpecialArguments.executeSpecialArgument(arguments[0]);
 
         try {
             final Loader loader = new Loader(arguments[0]);

@@ -25,7 +25,7 @@ LINE_COMMENT :   '#' ~[\r\n]* -> skip;
 endExpr: (';'| '\r'?'\n');
 
 block:
-    identity=Identifier Identifier* endExpr* '{' endExpr* (expression endExpr+)* '}'
+    identity=Identifier Identifier* endExpr* '{' endExpr* ((expression|block) endExpr+)* '}'
     ;
 
 
@@ -48,6 +48,7 @@ fragment LetterOrDigit
         ~[\u0000-\u007F\uD800-\uDBFF]
     |   // covers UTF-16 surrogate pairs encodings for U+10000 to U+10FFFF
         [\uD800-\uDBFF] [\uDC00-\uDFFF]
+    | '.'
 ;
 
 NUMBER : INT ('.' INT)?;

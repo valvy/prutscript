@@ -27,6 +27,13 @@ public final class Variable extends PrutReference {
         this.name = name;
     }
 
+    public Variable(final Variable var, final PrutContext context) throws PrutException {
+        super(var.getLineNr());
+        this.name = var.name;
+        this.value = var.getValue(context);
+
+    }
+
     public Variable(final PrutReference value,
                     final String name,
                     final int lineNr){

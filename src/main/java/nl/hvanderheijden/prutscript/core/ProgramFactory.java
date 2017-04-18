@@ -91,13 +91,14 @@ public class ProgramFactory {
                 PrutReference res = getMethod(new MethodCall(MAIN_METHOD +"1", new ArrayList<>(), 0)).executeMethod(ctx, new ArrayList<>());
                 while (true) {
                     if (res instanceof MethodCall) {
-                        res = res.getValue(context);
+                        res = res.getValue(ctx);
                     } else {
+                        if(res instanceof Variable){
+                            ctx.addToGlobalStack(new Variable((Variable) res, ctx));
+                        }
                         break;
                     }
                 }
-
-
                 //merge contexts;
                 ctx.surrenderGlobalStack(context);
 

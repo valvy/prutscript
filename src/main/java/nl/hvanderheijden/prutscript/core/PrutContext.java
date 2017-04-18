@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Handling the stack and the scopes of a program.
  */
-public final class PrutContext {
+public final class PrutContext extends PrutOutput{
 
     private final static class Scope{
         private final List<Variable> stack;
@@ -58,8 +58,6 @@ public final class PrutContext {
                 scope.addToGlobalStack(var);
             }
         }
-
-
 
         private Variable getVariable(final String name) throws ReferenceNotFoundException {
             final Optional<Variable> res = stack.stream().filter(var ->  var.getName().equals(name)).findFirst();

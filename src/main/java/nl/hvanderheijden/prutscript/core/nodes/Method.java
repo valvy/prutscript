@@ -3,6 +3,7 @@ package nl.hvanderheijden.prutscript.core.nodes;
 
 import nl.hvanderheijden.prutscript.core.ProgramFactory;
 import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.PrutOutput;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutRedefinedException;
 import nl.hvanderheijden.prutscript.utils.Assert;
@@ -10,7 +11,7 @@ import nl.hvanderheijden.prutscript.utils.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Method implements Node {
+public class Method extends PrutOutput implements Node {
 
     private final List<PrutReference> instructions;
 
@@ -41,9 +42,12 @@ public class Method implements Node {
     }
 
 
-    protected void addVariable(final PrutContext context, final PrutReference node) throws PrutRedefinedException {
+    protected void addVariable(final PrutContext context, final PrutReference node) throws PrutException {
         if (node instanceof Variable) {
-            context.addtoStack((Variable) node);
+
+            //context.addtoStack((Variable) node.getValue(context));
+            context.addtoStack(
+                    new Variable((Variable) node,context));
         }
     }
 
@@ -116,6 +120,8 @@ public class Method implements Node {
             final MethodCall call = (MethodCall) lastItem;
             call.preFillContext(context);
             return call;
+        } else if(lastItem instanceof Variable){
+            return lastItem;
         }
 
         return lastItem.getValue(context);

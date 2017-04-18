@@ -1,5 +1,6 @@
 package nl.hvanderheijden.prutscript.prutlib;
 
+import nl.hvanderheijden.prutscript.core.exceptions.UnableToLoadException;
 import nl.hvanderheijden.prutscript.utils.Loader;
 import nl.hvanderheijden.prutscript.core.PrutContext;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutAssertException;
@@ -8,10 +9,6 @@ import nl.hvanderheijden.prutscript.core.nodes.*;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,7 +17,7 @@ import java.util.logging.Logger;
 
 
 public final class System {
-    private static final Logger logger = Logger.getLogger( System.class.getName() );
+    //private static final Logger logger = Logger.getLogger( System.class.getName() );
     private System(){
         throw new UnsupportedOperationException();
     }
@@ -62,11 +59,15 @@ public final class System {
                                            final List<PrutReference> arguments) throws PrutException {
             Assert.typeCheck(arguments.size() != 1, "Import statement has only 1 argument", this.getLineNr());
             Assert.typeCheck(!(arguments.get(0) instanceof PrutString), "Import statement can contain only strings", this.getLineNr());
-            final String dat = ((PrutString)arguments.get(0)).getValue();
-            final Loader loader = new Loader(dat);
-            context.linkProgramToContext(loader.getProgram(context),this);
-
-            return new PrutNumber(0,this.getLineNr());
+            try {
+                final String dat = ((PrutString) arguments.get(0)).getValue();
+                final Loader loader = new Loader(dat);
+                context.linkProgramToContext(loader.getProgram(context), this);
+                return new PrutNumber(0, this.getLineNr());
+            } catch (final UnableToLoadException ex){
+                logger.log(Level.WARNING, ex.getMessage(), ex);
+                return new PrutNumber(-1, this.getLineNr());
+            }
         }
     }
 

@@ -2,7 +2,9 @@ package nl.hvanderheijden.prutscript.utils;
 
 import nl.hvanderheijden.prutscript.antlr4.PrutScriptLexer;
 import nl.hvanderheijden.prutscript.antlr4.PrutScriptParser;
+import nl.hvanderheijden.prutscript.config.PrutRuntimeConfig;
 import nl.hvanderheijden.prutscript.core.PrutContext;
+import nl.hvanderheijden.prutscript.core.PrutOutput;
 import nl.hvanderheijden.prutscript.core.PrutVisitor;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutRedefinedException;
@@ -25,18 +27,15 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Loader {
+public class Loader extends PrutOutput{
 
     private ProgramFactory.Program program;
-
-    private static final Logger logger = Logger.getLogger( Loader.class.getName() );
 
     private Loader(){
         throw new UnsupportedOperationException();
     }
 
-
-    public Loader(final String file) throws UnableToLoadException {
+    public Loader(final String file) throws PrutException {
         ProgramFactory.Program program = null;
         try {
             URL resource = Loader.class.getResource(file);
@@ -44,13 +43,15 @@ public class Loader {
                 resource = Paths.get(file).toUri().toURL();
             }
             try (final InputStream stream = resource.openStream()) {
+                Assert.typeCheck(stream == null, String.format("Could not load file %s ", file),0);
                 program = loadProgram(stream);
             } catch (IOException | PrutException e) {
-                logger.log(Level.SEVERE,e.getMessage(),e);
+                logger.log(Level.SEVERE, e.getMessage(), e);
+                throw new UnableToLoadException(e);
             }
         } catch (final MalformedURLException ex){
-            logger.log(Level.SEVERE,ex.getMessage(),ex);
-            throw new UnableToLoadException("Could not load program");
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new UnableToLoadException(ex);
         }
 
         this.program = program;

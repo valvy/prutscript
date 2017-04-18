@@ -1,4 +1,17 @@
-import "/testcode/someMethods.ps"
+#!/usr/bin/env prutscript
+isLoaded = import "/testcode/someMethods.ps"
 
-result = (test 3)
-print result
+execute isLoaded
+
+execute loaded {
+    "
+        test
+        afadfadf
+    "
+    result = (test 3)
+    result2 = (test 4)
+    print result
+    print PLUS
+}
+
+

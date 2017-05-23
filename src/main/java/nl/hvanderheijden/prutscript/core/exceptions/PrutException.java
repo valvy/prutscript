@@ -1,8 +1,10 @@
 package nl.hvanderheijden.prutscript.core.exceptions;
 
-
+/**
+ * Global exception that is inherited by all implemented exception from PrutScript.
+ * @author Heiko van der Heijden.
+ */
 public abstract class PrutException extends Exception {
-
 
     private final String msg;
 

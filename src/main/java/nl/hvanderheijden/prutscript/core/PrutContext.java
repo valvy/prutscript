@@ -14,6 +14,8 @@ import java.util.Optional;
 
 /**
  * Handling the stack and the scopes of a program.
+ * Also used as primarily interface of the Program methods.
+ * @author Heiko van der Heijden
  */
 public final class PrutContext extends PrutOutput{
 
@@ -43,13 +45,10 @@ public final class PrutContext extends PrutOutput{
 
         public boolean variableExists(final String name){
             final Optional<Variable> res = stack.stream().filter(var ->  var.getName().equals(name)).findFirst();
-            if(res.isPresent()){
+            if (res.isPresent()) {
                 return true;
-            } else if(scope != null) {
-                return scope.variableExists(name);
-            } else{
-                return false;
-            }
+            } else
+                return scope != null && scope.variableExists(name);
         }
 
         private void addToGlobalStack(final Variable var) throws PrutRedefinedException {
@@ -100,6 +99,12 @@ public final class PrutContext extends PrutOutput{
         this.program = context.getProgram();
     }
 
+    /**
+     * Links an other program to this program.
+     * @param program
+     * @param node
+     * @throws PrutRedefinedException
+     */
     public void linkProgramToContext(final ProgramFactory.Program program, final Node node) throws PrutRedefinedException {
         this.program.linkProgram(program,node);
     }
@@ -112,10 +117,20 @@ public final class PrutContext extends PrutOutput{
         return program;
     }
 
+    /**
+     * Adds a variable to the global stack.
+     * @param var the variable.
+     * @throws PrutRedefinedException a duplicate is already defined.
+     */
     public void addToGlobalStack(final Variable var) throws PrutRedefinedException{
         this.scope.addToGlobalStack(var);
     }
 
+    /**
+     * Adds a variable to the local stack.
+     * @param var
+     * @throws PrutRedefinedException
+     */
     public void addtoStack(final Variable var) throws PrutRedefinedException {
 
         for(final Variable v : this.scope.stack){
@@ -130,6 +145,11 @@ public final class PrutContext extends PrutOutput{
         this.scope.stack.add(var);
     }
 
+    /**
+     * Places the entire global stack to the target context.
+     * @param ctx
+     * @throws PrutRedefinedException
+     */
     public void surrenderGlobalStack(final PrutContext ctx) throws PrutRedefinedException {
         for(final Variable var : scope.stack){
             ctx.addToGlobalStack(var);
@@ -141,7 +161,12 @@ public final class PrutContext extends PrutOutput{
         return scope.toString();
     }
 
-
+    /**
+     * Searches a variable from every scope.
+     * @param name
+     * @return
+     * @throws PrutException
+     */
     public Variable getVariable(final String name) throws PrutException {
         if(scope.variableExists(name)) {
             return this.scope.getVariable(name);
@@ -151,6 +176,12 @@ public final class PrutContext extends PrutOutput{
         }
     }
 
+    /**
+     * Gets a method from the program.
+     * @param call
+     * @return
+     * @throws ReferenceNotFoundException
+     */
     public Method getMethod(final MethodCall call) throws ReferenceNotFoundException {
         return program.getMethod(call);
     }

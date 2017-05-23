@@ -5,7 +5,8 @@ import nl.hvanderheijden.prutscript.config.PrutRuntimeConfig;
 import java.util.logging.Logger;
 
 /**
- * Created by heikovanderheijden on 18/04/2017.
+ * Class to disable logger.
+ * @author Heiko van der Heijden
  */
 public abstract class PrutOutput {
 

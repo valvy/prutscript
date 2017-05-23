@@ -4,6 +4,10 @@ import nl.hvanderheijden.prutscript.core.ProgramFactory;
 import nl.hvanderheijden.prutscript.core.PrutContext;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 
+/**
+ * Stores a double decimal value in memory.
+ * @author Heiko van der Heijden
+ */
 public final class PrutNumber extends PrutReference {
 
     private final double value;
@@ -18,19 +22,16 @@ public final class PrutNumber extends PrutReference {
     }
 
     @Override
-    public boolean equals(final Object other){
-        if(other == this) {
+    public boolean equals(final Object other) {
+        if (other == this) {
             return true;
         }
-        if(other instanceof PrutNumber){
-            return ((PrutNumber) other).value == value;
-        }
+        return other instanceof PrutNumber && ((PrutNumber) other).value == value;
 
-        return false;
     }
 
     @Override
-    public PrutReference getValue(PrutContext context) throws PrutException {
+    public PrutReference execute(PrutContext context) throws PrutException {
         return this;
     }
 
@@ -44,9 +45,6 @@ public final class PrutNumber extends PrutReference {
         return String.format("%f", value );
     }
 
-
     @Override
-    public void checkValidity(final ProgramFactory.Program pr) throws PrutException {
-
-    }
+    public void checkValidity(final ProgramFactory.Program pr) throws PrutException { }
 }

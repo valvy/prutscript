@@ -2,19 +2,20 @@ package nl.hvanderheijden.prutscript.prutlib;
 
 
 import nl.hvanderheijden.prutscript.core.ProgramFactory;
+import nl.hvanderheijden.prutscript.core.exceptions.UnableToLoadException;
 import nl.hvanderheijden.prutscript.core.nodes.Method;
 
+/**
+ * Singleton to load all the different system classes.
+ * @author Heiko van der Heijden.
+ */
 public final class PrutStd {
 
-    private static final PrutStd ourInstance = new PrutStd();
+    private static PrutStd ourInstance;
 
     private final ProgramFactory.Program io;
 
-    public static PrutStd getInstance() {
-        return ourInstance;
-    }
-
-    private PrutStd() {
+    private PrutStd() throws UnableToLoadException {
         final ProgramFactory factory = new ProgramFactory();
         for(final Method m : System.getIOMethods()){
             factory.addToken(m);
@@ -22,7 +23,14 @@ public final class PrutStd {
         this.io = factory.getProgram();
     }
 
-    public ProgramFactory.Program getStandardIO(){
+    public static PrutStd getInstance() throws UnableToLoadException {
+        if(ourInstance == null){
+            ourInstance = new PrutStd();
+        }
+        return ourInstance;
+    }
+
+    public ProgramFactory.Program getStandardIO() {
         return this.io;
     }
 }

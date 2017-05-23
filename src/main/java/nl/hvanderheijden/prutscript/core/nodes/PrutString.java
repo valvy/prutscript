@@ -5,7 +5,9 @@ import nl.hvanderheijden.prutscript.core.PrutContext;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
-
+/**
+ * A string.
+ */
 public final class PrutString extends PrutReference {
 
     private final String value;
@@ -26,7 +28,7 @@ public final class PrutString extends PrutReference {
 
 
     @Override
-    public PrutReference getValue(PrutContext context) throws PrutException {
+    public PrutReference execute(PrutContext context) throws PrutException {
         return this;
     }
 

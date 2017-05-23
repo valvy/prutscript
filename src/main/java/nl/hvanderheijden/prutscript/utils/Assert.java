@@ -6,6 +6,10 @@ import nl.hvanderheijden.prutscript.core.exceptions.PrutTypeException;
 import nl.hvanderheijden.prutscript.core.exceptions.UndefinedBehaviourException;
 import nl.hvanderheijden.prutscript.core.nodes.Node;
 
+/**
+ * Class for all the assertion methods.
+ * @author Heiko van der Heijden.
+ */
 public final class Assert {
 
     private Assert(){

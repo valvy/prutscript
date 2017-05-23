@@ -5,12 +5,15 @@ import nl.hvanderheijden.prutscript.core.ProgramFactory;
 import nl.hvanderheijden.prutscript.core.PrutContext;
 import nl.hvanderheijden.prutscript.core.PrutOutput;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
-import nl.hvanderheijden.prutscript.core.exceptions.PrutRedefinedException;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Storage of a method.
+ * @author Heiko van der Heijden.
+ */
 public class Method extends PrutOutput implements Node {
 
     private final List<PrutReference> instructions;
@@ -25,6 +28,13 @@ public class Method extends PrutOutput implements Node {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Initializer of the method.
+     * @param name method name.
+     * @param nodelist The instructions of the method
+     * @param arguments the argument name in order.
+     * @param lineNr the line number of the method.
+     */
     public Method(final String name,
                   final List<PrutReference> nodelist,
                   final List<String> arguments,
@@ -42,10 +52,8 @@ public class Method extends PrutOutput implements Node {
     }
 
 
-    protected void addVariable(final PrutContext context, final PrutReference node) throws PrutException {
+    private void addVariable(final PrutContext context, final PrutReference node) throws PrutException {
         if (node instanceof Variable) {
-
-            //context.addtoStack((Variable) node.getValue(context));
             context.addtoStack(
                     new Variable((Variable) node,context));
         }
@@ -57,7 +65,7 @@ public class Method extends PrutOutput implements Node {
         for(final PrutReference arg : call.getArguments()){
             i++;
             res.add(new Variable(arg.getName(Integer.toString(i)),
-                    arg.getValue(context),
+                    arg.execute(context),
                     arg.getLineNr()
             ));
 
@@ -73,11 +81,11 @@ public class Method extends PrutOutput implements Node {
             final MethodCall method = (MethodCall)node;
 
          //   final List<Variable> args = getArguments(context, method);//getArguments(stack,method,program);
-            PrutReference res = method.getValue(context);
+            PrutReference res = method.execute(context);
             while(true){
 
                 if(res instanceof MethodCall){
-                    res = res.getValue(context);
+                    res = res.execute(context);
                 } else{
                     return res;
                 }
@@ -86,6 +94,13 @@ public class Method extends PrutOutput implements Node {
         return null;
     }
 
+    /**
+     * Executes the method.
+     * @param context the context of the method.
+     * @param arguments the arguments required.
+     * @return The result.
+     * @throws PrutException Error while executing.
+     */
     public PrutReference executeMethod(final PrutContext context, final List<PrutReference> arguments) throws PrutException {
 
         Assert.typeCheck(arguments.size() != this.arguments.size(),this);
@@ -94,16 +109,14 @@ public class Method extends PrutOutput implements Node {
          * Add the arguments to the stack
          */
         for(int i = 0; i < arguments.size(); i++) {
-
             Assert.isUndefined(arguments.get(i) == null,this);
-            final PrutReference r = arguments.get(i).getValue(context);
+            final PrutReference r = arguments.get(i).execute(context);
             context.addtoStack(new Variable(
                     r,
                     this.arguments.get(i),
                     this.getLineNr()
 
             ));
-
         }
 
         for(int i = 0; i < instructions.size() - 1; i++){
@@ -111,7 +124,6 @@ public class Method extends PrutOutput implements Node {
             addVariable(context,instructions.get(i));
             callMethod(context, instructions.get(i));
         }
-
 
         //Do a tailcall
         PrutReference lastItem = instructions.get(instructions.size() -1 );
@@ -124,7 +136,7 @@ public class Method extends PrutOutput implements Node {
             return lastItem;
         }
 
-        return lastItem.getValue(context);
+        return lastItem.execute(context);
     }
 
     public String getName() {

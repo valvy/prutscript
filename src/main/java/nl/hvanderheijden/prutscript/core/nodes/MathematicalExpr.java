@@ -7,6 +7,10 @@ import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.utils.MathOperations;
 import nl.hvanderheijden.prutscript.utils.Assert;
 
+/**
+ * Stores a mathematical expression.
+ * @author Heiko van der Heijden.
+ */
 public final class MathematicalExpr extends PrutReference {
 
     public enum Operation{
@@ -16,8 +20,6 @@ public final class MathematicalExpr extends PrutReference {
         Substraction
     }
 
-
-   // private final int lineNr;
     private final PrutReference leftValue;
     private final PrutReference rightValue;
     private final Operation operation;
@@ -34,7 +36,7 @@ public final class MathematicalExpr extends PrutReference {
 
 
     @Override
-    public PrutReference getValue(PrutContext context) throws PrutException {
+    public PrutReference execute(PrutContext context) throws PrutException {
 
         final PrutReference lh = this.getValue(context,leftValue);
         final PrutReference rh = this.getValue(context,rightValue);
@@ -45,14 +47,14 @@ public final class MathematicalExpr extends PrutReference {
                 this.getLineNr()
                 );
         if(lh instanceof PrutNumber && rh instanceof PrutNumber){
-            return MathOperations.executeMath((PrutNumber)lh, operation,(PrutNumber) rh).getValue(context);
+            return MathOperations.executeMath((PrutNumber)lh, operation,(PrutNumber) rh).execute(context);
         }
         throw new UnsupportedOperationException();
     }
 
 
     public PrutReference getValue(final PrutContext context, final PrutReference value) throws PrutException {
-        return value.getValue(context);
+        return value.execute(context);
     }
 
     @Override
@@ -70,10 +72,8 @@ public final class MathematicalExpr extends PrutReference {
     @Override
     public void checkValidity(final ProgramFactory.Program pr) throws PrutException{
         Assert.isUndefined(leftValue == null || rightValue == null, this);
-        Assert.typeCheck(!(leftValue instanceof PrutReference || leftValue instanceof Variable),this);
-        Assert.typeCheck(!(rightValue instanceof PrutReference || rightValue instanceof Variable),this);
-
-
+        Assert.typeCheck(!(leftValue instanceof PrutNumber || leftValue instanceof Variable),this);
+        Assert.typeCheck(!(rightValue instanceof PrutNumber || rightValue instanceof Variable),this);
     }
 
 }

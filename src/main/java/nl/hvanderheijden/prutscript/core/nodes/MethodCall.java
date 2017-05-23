@@ -16,8 +16,6 @@ public final class MethodCall extends PrutReference {
 
     private PrutContext tmpContext;
 
-
-
     public MethodCall(final String name,
                       final List<PrutReference> arguments,
                       final int lineNr){
@@ -62,12 +60,12 @@ public final class MethodCall extends PrutReference {
     }
 
     @Override
-    public PrutReference getValue(final PrutContext context) throws PrutException {
+    public PrutReference execute(final PrutContext context) throws PrutException {
         final List<PrutReference> args = new ArrayList<>();
         if(tmpContext == null) {
             final PrutContext cont = new PrutContext(context);
             for (final PrutReference v : arguments) {
-                args.add(v.getValue(cont).getValue(cont));
+                args.add(v.execute(cont).execute(cont));
             }
             return context.getMethod(this).executeMethod(cont,args);
         }
@@ -75,7 +73,7 @@ public final class MethodCall extends PrutReference {
 
             final PrutContext cont = new PrutContext(tmpContext);
             for (final PrutReference v : arguments) {
-                args.add(v.getValue(cont));
+                args.add(v.execute(cont));
             }
             this.tmpContext = null;
             return cont.getMethod(this).executeMethod(cont,args);

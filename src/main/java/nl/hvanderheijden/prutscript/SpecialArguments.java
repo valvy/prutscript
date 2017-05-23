@@ -8,10 +8,8 @@ import java.util.logging.Logger;
 
 import static java.lang.System.exit;
 
-/**
- * Created by heikovanderheijden on 18/04/2017.
- */
-public final class SpecialArguments{
+
+final class SpecialArguments{
 
     private static final Logger logger = Logger.getLogger( Main.class.getName() );
 
@@ -19,7 +17,7 @@ public final class SpecialArguments{
         throw new UnsupportedOperationException();
     }
 
-    public static void executeSpecialArgument(final String arg){
+    static void executeSpecialArgument(final String arg){
 
         if ("--version".equals(arg)) {
             try {

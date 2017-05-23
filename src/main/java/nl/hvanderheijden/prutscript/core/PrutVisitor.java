@@ -2,23 +2,32 @@ package nl.hvanderheijden.prutscript.core;
 
 import nl.hvanderheijden.prutscript.antlr4.PrutScriptBaseVisitor;
 import nl.hvanderheijden.prutscript.antlr4.PrutScriptParser;
+import nl.hvanderheijden.prutscript.core.exceptions.UnableToLoadException;
 import nl.hvanderheijden.prutscript.core.nodes.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
+
+    private static final Logger logger = Logger.getLogger( PrutVisitor.class.getName() );
 
     @Override
     public T visitPrutScript(PrutScriptParser.PrutScriptContext ctx) {
         final ProgramFactory program = new ProgramFactory();
-        for(final PrutScriptParser.ExpressionContext d : ctx.expression()){
-            program.addToken((Node)visit(d));
-        }
+        try {
+            for (final PrutScriptParser.ExpressionContext d : ctx.expression()) {
+                program.addToken((Node) visit(d));
+            }
 
-        for(final PrutScriptParser.BlockContext blocks : ctx.block()){
-            program.addToken((Node)visit(blocks));
+            for (final PrutScriptParser.BlockContext blocks : ctx.block()) {
+                program.addToken((Node) visit(blocks));
+            }
+        } catch(final UnableToLoadException ex){
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         return (T) program.getProgram();
@@ -30,7 +39,6 @@ public class PrutVisitor<T> extends PrutScriptBaseVisitor<T> {
                 ctx.getText().substring(1, ctx.getText().length() - 1),
                 ctx.getStart().getLine()
         );
-//      /  System.out.println(ctx.getStart().getLine());
         return (T) str;
 
     }

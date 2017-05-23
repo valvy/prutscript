@@ -30,7 +30,7 @@ public final class Variable extends PrutReference {
     public Variable(final Variable var, final PrutContext context) throws PrutException {
         super(var.getLineNr());
         this.name = var.name;
-        this.value = var.getValue(context);
+        this.value = var.execute(context);
 
     }
 
@@ -71,10 +71,10 @@ public final class Variable extends PrutReference {
     }
 
     @Override
-    public PrutReference getValue(PrutContext context) throws PrutException {
+    public PrutReference execute(PrutContext context) throws PrutException {
         if(this.value == null){
-            return context.getVariable(name).getValue(context);//new Variable(this.name, context.getVariable(name).getValue(context));
+            return context.getVariable(name).execute(context);//new Variable(this.name, context.getVariable(name).execute(context));
         }
-        return this.value.getValue(context);
+        return this.value.execute(context);
     }
 }

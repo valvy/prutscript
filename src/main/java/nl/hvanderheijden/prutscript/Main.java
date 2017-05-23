@@ -3,7 +3,7 @@ package nl.hvanderheijden.prutscript;
 import nl.hvanderheijden.prutscript.core.exceptions.PrutException;
 import nl.hvanderheijden.prutscript.utils.Loader;
 
-public final class Main {
+final class Main {
 
     private Main(){
         throw new UnsupportedOperationException();

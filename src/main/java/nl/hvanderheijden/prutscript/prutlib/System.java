@@ -14,18 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public final class System {
-    //private static final Logger logger = Logger.getLogger( System.class.getName() );
+
     private System(){
         throw new UnsupportedOperationException();
     }
 
     public static class PrutAssert extends Method{
         private PrutAssert() {
-            super("assert", new ArrayList<PrutReference>(), new ArrayList<String>(), -1);
+            super("assert", new ArrayList<>(), new ArrayList<>(), -1);
         }
 
         @Override
@@ -34,7 +33,7 @@ public final class System {
 
             Assert.isUndefined(arguments.size() != 2, this);
 
-            if(!arguments.get(0).equals(arguments.get(1).getValue(context))){
+            if(!arguments.get(0).equals(arguments.get(1).execute(context))){
                 throw new PrutAssertException(1,String.format(
                         "Assertion failure, argument %s is not equal to %s",
                         arguments.get(0).prutToString(),
@@ -52,7 +51,7 @@ public final class System {
 
     public static class Import extends Method {
         private Import() {
-            super("import", new ArrayList<PrutReference>(), new ArrayList<String>(), -1);
+            super("ymportearje", new ArrayList<>(), new ArrayList<>(), -1);
         }
 
         @Override
@@ -76,7 +75,7 @@ public final class System {
     public static class Print extends Method{
 
         private Print() {
-            super("print", new ArrayList<PrutReference>(), new ArrayList<String>(), -1);
+            super("sjen", new ArrayList<>(), new ArrayList<>(), -1);
         }
 
         @Override
@@ -99,7 +98,7 @@ public final class System {
 
     public static class Input extends Method{
         private Input() {
-            super("input", new ArrayList<PrutReference>(), new ArrayList<String>(),-1);
+            super("Toetseboerd", new ArrayList<>(), new ArrayList<>(),-1);
         }
 
         @Override

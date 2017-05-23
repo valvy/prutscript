@@ -1,6 +1,8 @@
 package nl.hvanderheijden.prutscript.core.exceptions;
 
-
+/**
+ * Exception thrown when the parameters are not equal.
+ */
 public class PrutAssertException extends PrutException{
 
     public PrutAssertException(final int lineNr, final String msg) {

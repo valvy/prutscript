@@ -2,10 +2,7 @@ package nl.hvanderheijden.prutscript.config;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.Properties;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,12 +43,8 @@ public final class PrutRuntimeConfig {
 
 
 
-    private boolean setDebug(final String debug){
-        if(debug == null || debug.isEmpty()){
-            return false;
-        } else {
-            return Boolean.parseBoolean(debug);
-        }
+    private boolean setDebug(final String debug) {
+        return !(debug == null || debug.isEmpty()) && Boolean.parseBoolean(debug);
     }
 
     private void setSystemOut(final String str){
